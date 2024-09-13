@@ -1,0 +1,16 @@
+flutter_native_splash:
+  android: true
+  ios: true
+  web: true
+
+  # For Android 11 and lower
+  # image: assets/images/logo/branding600px.png (Doc Recommend)
+  image: assets/images/logo/branding1152px.png
+  color: "#F7EFE7"
+  color_dark: "#20262D"
+
+  # For Android 12 and higher
+  android_12:
+    image: assets/images/logo/branding1152px.png
+    color: "#F7EFE7"
+    color_dark: "#20262D"
