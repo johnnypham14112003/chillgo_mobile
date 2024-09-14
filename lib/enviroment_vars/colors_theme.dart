@@ -6,20 +6,42 @@ import 'package:shared_preferences/shared_preferences.dart';
 var light = ThemeData(
     primaryColor: const Color.fromRGBO(90, 78, 255, 1),
     primaryColorLight: const Color.fromRGBO(111, 116, 240, 1),
+    primaryColorDark: const Color.fromRGBO(90, 28, 205, 1),
     secondaryHeaderColor: const Color.fromRGBO(205, 238, 0, 1),
     highlightColor: const Color.fromRGBO(238, 160, 255, 1),
     scaffoldBackgroundColor: const Color.fromRGBO(245, 245, 245, 1),
+    cardColor: const Color.fromRGBO(223, 217, 210, 1),
+    indicatorColor: const Color.fromRGBO(32, 38, 45, 1),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all<Color>(
             const Color.fromRGBO(10, 10, 10, 0.75)),
       ),
     ),
+    fontFamily: 'Montserrat',
     textTheme: const TextTheme(
-      titleMedium: TextStyle(
+      titleLarge: TextStyle(
+        fontSize: 30,
+        letterSpacing: 1,
+        fontWeight: FontWeight.bold,
         color: Color.fromRGBO(32, 38, 45, 1),
       ),
-      headlineSmall: TextStyle(
+      titleMedium: TextStyle(
+        fontSize: 30,
+        letterSpacing: 1,
+        fontWeight: FontWeight.normal,
+        color: Color.fromRGBO(32, 38, 45, 1),
+      ),
+      bodyLarge: TextStyle(
+        fontSize: 20,
+        letterSpacing: 1,
+        fontWeight: FontWeight.bold,
+        color: Color.fromRGBO(32, 38, 45, 1),
+      ),
+      bodyMedium: TextStyle(
+        fontSize: 20,
+        letterSpacing: 1,
+        fontWeight: FontWeight.normal,
         color: Color.fromRGBO(32, 38, 45, 1),
       ),
     ));
@@ -27,20 +49,40 @@ var light = ThemeData(
 var dark = ThemeData(
     primaryColor: const Color.fromRGBO(205, 238, 0, 1),
     primaryColorLight: const Color.fromRGBO(226, 244, 166, 1),
+    primaryColorDark: const Color.fromRGBO(115, 158, 0, 1),
     secondaryHeaderColor: const Color.fromRGBO(90, 78, 255, 1),
     highlightColor: const Color.fromRGBO(238, 160, 255, 1),
     scaffoldBackgroundColor: const Color.fromRGBO(10, 10, 10, 1),
+    cardColor: const Color.fromRGBO(32, 38, 45, 1),
+    indicatorColor: const Color.fromRGBO(223, 217, 210, 1),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all<Color>(
             const Color.fromRGBO(223, 217, 210, 0.75)),
       ),
     ),
+    fontFamily: 'Montserrat',
     textTheme: const TextTheme(
-      titleMedium: TextStyle(
+      titleLarge: TextStyle(
+        letterSpacing: 1,
+        fontWeight: FontWeight.bold,
         color: Color.fromRGBO(223, 217, 210, 1),
       ),
-      headlineSmall: TextStyle(
+      titleMedium: TextStyle(
+        letterSpacing: 1,
+        fontWeight: FontWeight.normal,
+        color: Color.fromRGBO(223, 217, 210, 1),
+      ),
+      bodyLarge: TextStyle(
+        fontSize: 16,
+        letterSpacing: 1,
+        fontWeight: FontWeight.bold,
+        color: Color.fromRGBO(223, 217, 210, 1),
+      ),
+      bodyMedium: TextStyle(
+        fontSize: 16,
+        letterSpacing: 1,
+        fontWeight: FontWeight.normal,
         color: Color.fromRGBO(223, 217, 210, 1),
       ),
     ));

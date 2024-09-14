@@ -2,7 +2,7 @@
     <application
         android:label="Chillgo"
         android:name="${applicationName}"
-        android:icon="@drawable/logo_icon">
+        android:icon="@mipmap/ic_app">
         <activity
             android:name=".MainActivity"
             android:exported="true"
