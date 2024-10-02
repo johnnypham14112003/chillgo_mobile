@@ -1,0 +1,23 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "chillgo-exe201",
+          "appId": "1:64271390533:android:23d62e9c724bc18932502c",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "chillgo-exe201",
+          "configurations": {
+            "android": "1:64271390533:android:23d62e9c724bc18932502c",
+            "ios": "1:64271390533:ios:eae4acbecc742ed232502c",
+            "web": "1:64271390533:web:bdcc16be536c378832502c"
+          }
+        }
+      }
+    }
+  }
+}
