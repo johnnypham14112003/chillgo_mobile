@@ -22,3 +22,4 @@ This chillgo_mobile project is a mobile application using Flutter (Dart) to deve
 + [provider](https://pub.dev/packages/provider/install)
 + [http](https://pub.dev/packages/http/install)
 + [flutter_native_splash](https://pub.dev/packages/flutter_native_splash/install)
++ [carousel_slider](https://pub.dev/packages/carousel_slider/install)

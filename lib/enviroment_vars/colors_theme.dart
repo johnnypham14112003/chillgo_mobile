@@ -33,13 +33,19 @@ var light = ThemeData(
         color: Color.fromRGBO(32, 38, 45, 1),
       ),
       bodyLarge: TextStyle(
-        fontSize: 20,
+        fontSize: 22,
         letterSpacing: 1,
         fontWeight: FontWeight.bold,
         color: Color.fromRGBO(32, 38, 45, 1),
       ),
       bodyMedium: TextStyle(
         fontSize: 20,
+        letterSpacing: 1,
+        fontWeight: FontWeight.normal,
+        color: Color.fromRGBO(32, 38, 45, 1),
+      ),
+      bodySmall: TextStyle(
+        fontSize: 14,
         letterSpacing: 1,
         fontWeight: FontWeight.normal,
         color: Color.fromRGBO(32, 38, 45, 1),
@@ -64,23 +70,31 @@ var dark = ThemeData(
     fontFamily: 'Montserrat',
     textTheme: const TextTheme(
       titleLarge: TextStyle(
+        fontSize: 30,
         letterSpacing: 1,
         fontWeight: FontWeight.bold,
         color: Color.fromRGBO(223, 217, 210, 1),
       ),
       titleMedium: TextStyle(
+        fontSize: 30,
         letterSpacing: 1,
         fontWeight: FontWeight.normal,
         color: Color.fromRGBO(223, 217, 210, 1),
       ),
       bodyLarge: TextStyle(
-        fontSize: 16,
+        fontSize: 22,
         letterSpacing: 1,
         fontWeight: FontWeight.bold,
         color: Color.fromRGBO(223, 217, 210, 1),
       ),
       bodyMedium: TextStyle(
-        fontSize: 16,
+        fontSize: 20,
+        letterSpacing: 1,
+        fontWeight: FontWeight.normal,
+        color: Color.fromRGBO(223, 217, 210, 1),
+      ),
+      bodySmall: TextStyle(
+        fontSize: 14,
         letterSpacing: 1,
         fontWeight: FontWeight.normal,
         color: Color.fromRGBO(223, 217, 210, 1),
