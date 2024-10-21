@@ -1,5 +1,6 @@
 import 'package:chillgo_mobile/src/core/configs/image_factory.dart';
 import 'package:chillgo_mobile/src/core/utils/extention.dart';
+import 'package:chillgo_mobile/src/features/payment_method/payment_method_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -181,7 +182,9 @@ class _HomePageDartWidgetState extends State<HomePage> {
                             size: 25,
                           ),
                           onPressed: () {
-                            //nav to notification Tab(){}
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const PaymentMethodPage(),
+                            ));
                           },
                         ),
                       ],
