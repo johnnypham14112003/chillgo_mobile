@@ -12,6 +12,36 @@ var light = ThemeData(
     scaffoldBackgroundColor: const Color.fromRGBO(245, 245, 245, 1),
     cardColor: const Color.fromRGBO(223, 217, 210, 1),
     indicatorColor: const Color.fromRGBO(32, 38, 45, 1),
+    inputDecorationTheme: InputDecorationTheme(
+      enabledBorder: UnderlineInputBorder(
+        borderSide: const BorderSide(
+          color: Color.fromRGBO(32, 38, 45, 1),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(0),
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: const BorderSide(
+          color: Color.fromRGBO(205, 238, 0, 1),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(0),
+      ),
+      errorBorder: UnderlineInputBorder(
+        borderSide: const BorderSide(
+          color: Color(0xFFFF0000),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(0),
+      ),
+      focusedErrorBorder: UnderlineInputBorder(
+        borderSide: const BorderSide(
+          color: Color(0xFFFF0000),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(0),
+      ),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all<Color>(

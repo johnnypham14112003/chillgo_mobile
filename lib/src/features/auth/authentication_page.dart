@@ -1,27 +1,25 @@
 // Pub Packages
+import 'package:chillgo_mobile/src/core/configs/image_factory.dart';
+import 'package:chillgo_mobile/src/core/utils/constants.dart';
+import 'package:chillgo_mobile/src/core/utils/validator.dart';
+import 'package:chillgo_mobile/src/features/auth/auth_provider.dart';
+import 'package:chillgo_mobile/src/features/auth/widgets/password_field.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:provider/provider.dart';
-import 'package:http/http.dart';
-import 'package:chillgo_mobile/src/core/utils/account_cache.dart';
-
-import 'package:chillgo_mobile/src/models/account_model.dart';
-import 'package:chillgo_mobile/src/data/services/account_services.dart';
-import 'package:chillgo_mobile/src/features/home/home_page.dart';
 import 'package:chillgo_mobile/src/core/utils/extention.dart';
+import 'package:provider/provider.dart';
 
 class AuthenticationPage extends StatefulWidget {
   const AuthenticationPage({super.key});
 
   @override
-  _AuthenticationPageState createState() => _AuthenticationPageState();
+  State<AuthenticationPage> createState() => _AuthenticationPageState();
 }
 
 class _AuthenticationPageState extends State<AuthenticationPage> {
   //----------------------[ Declare ]----------------------
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
-  final AccountService _accountService = AccountService();
+
   final PageController _pageController = PageController(initialPage: 0);
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -35,21 +33,17 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   //----------------------[ Functions ]----------------------
   void _navigateToRegister() {
     _pageController.animateToPage(1,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+        duration: const Duration(milliseconds: defaultDuration),
+        curve: Curves.easeInOut);
   }
 
   void _navigateToLogin() {
     _pageController.animateToPage(0,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+        duration: const Duration(milliseconds: defaultDuration),
+        curve: Curves.easeInOut);
   }
 
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
-
-  void _register() async {
+  void _register() {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -58,29 +52,18 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
       _isLoading = true;
     });
 
-    try {
-      Response response = await _accountService.fetchRegister(
-          _nameController.text,
-          _emailController.text,
-          _passwordController.text);
-
-      if (response.statusCode == 201) {
-        _showSnackBar('Tạo thành công!');
-        _navigateToLogin();
-      } else if (response.statusCode >= 400 && response.statusCode <= 499) {
-        _showSnackBar('Lỗi Client! Mã lỗi: ${response.statusCode}');
-      } else if (response.statusCode >= 500) {
-        _showSnackBar('Lỗi Server! Mã lỗi: ${response.statusCode}');
-      } else {
-        _showSnackBar('Lỗi không xác định!');
-      }
-    } catch (e) {
-      _showSnackBar('Lỗi kết nối! Vui lòng thử lại');
-    } finally {
+    context
+        .read<AuthProvider>()
+        .register(
+            context: context,
+            name: _nameController.text,
+            email: _emailController.text,
+            password: _passwordController.text)
+        .whenComplete(() {
       setState(() {
         _isLoading = false;
       });
-    }
+    });
   }
 
   void _login() async {
@@ -92,32 +75,17 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
       _isLoading = true;
     });
 
-    try {
-      Response response = await _accountService.fetchLogin(
-          _emailController.text, _passwordController.text);
-
-      if (response.statusCode == 200) {
-        final account = Account.fromJson(jsonDecode(response.body));
-        await Provider.of<AccountProvider>(context, listen: false)
-            .saveAccount(account);
-
-        //Navigate to home page
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const HomePage()));
-      } else if (response.statusCode >= 400 && response.statusCode <= 499) {
-        _showSnackBar('Lỗi Client! Mã lỗi: ${response.statusCode}');
-      } else if (response.statusCode >= 500) {
-        _showSnackBar('Lỗi Server! Mã lỗi: ${response.statusCode}');
-      } else {
-        _showSnackBar('Lỗi không xác định!');
-      }
-    } catch (e) {
-      _showSnackBar('Lỗi kết nối! Vui lòng thử lại');
-    } finally {
+    context
+        .read<AuthProvider>()
+        .login(
+            context: context,
+            email: _emailController.text,
+            password: _passwordController.text)
+        .whenComplete(() {
       setState(() {
         _isLoading = false;
       });
-    }
+    });
   }
 
 //----------------------[ UI ]----------------------
@@ -136,9 +104,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                width: MediaQuery.sizeOf(context).width,
-                height: MediaQuery.sizeOf(context).height * 0.78,
+              SizedBox(
+                width: context.querySize.width,
+                height: context.querySize.height * 0.78,
                 child: PageView(
                   controller: _pageController,
                   scrollDirection: Axis.horizontal,
@@ -148,7 +116,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Image.asset(
-                          "assets/images/logo/branding600px.png",
+                          ImageFactory.branding600px,
                           width: 250,
                           height: 100,
                           fit: BoxFit.cover,
@@ -178,7 +146,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                           child: Container(
-                            width: MediaQuery.sizeOf(context).width * 0.8,
+                            width: context.querySize.width * 0.8,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(0),
                             ),
@@ -186,8 +154,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Container(
-                                  width: MediaQuery.sizeOf(context).width,
+                                SizedBox(
+                                  width: context.querySize.width,
                                   child: TextFormField(
                                     controller: _emailController,
                                     autofocus: false,
@@ -199,36 +167,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                           .textTheme
                                           .bodyMedium,
                                       alignLabelWithHint: true,
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color:
-                                              Theme.of(context).indicatorColor,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Theme.of(context)
-                                              .secondaryHeaderColor,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      errorBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFFFF0000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      focusedErrorBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFFFF0000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
                                     ),
                                     style: Theme.of(context)
                                         .textTheme
@@ -238,96 +176,13 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                         ),
                                     cursorColor:
                                         Theme.of(context).indicatorColor,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Vui lòng nhập Email';
-                                      }
-                                      if (!RegExp(
-                                              r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                          .hasMatch(value)) {
-                                        return 'Vui lòng nhập email hợp lệ';
-                                      }
-                                      return null;
-                                    },
+                                    validator: Validator.validateEmail,
                                   ),
                                 ),
-                                Container(
-                                  width: MediaQuery.sizeOf(context).width,
-                                  child: TextFormField(
-                                    controller: _passwordController,
-                                    obscureText: !_passwordVisible,
-                                    decoration: InputDecoration(
-                                      isDense: false,
-                                      labelText: 'Mật khẩu',
-                                      labelStyle: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                      alignLabelWithHint: true,
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color:
-                                              Theme.of(context).indicatorColor,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Theme.of(context)
-                                              .secondaryHeaderColor,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      errorBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFFFF0000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      focusedErrorBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFFFF0000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      suffixIcon: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _passwordVisible =
-                                                !_passwordVisible;
-                                          });
-                                        },
-                                        icon: Icon(
-                                          _passwordVisible
-                                              ? Icons.visibility_off_outlined
-                                              : Icons.visibility_outlined,
-                                          color:
-                                              Theme.of(context).indicatorColor,
-                                          size: 20,
-                                        ),
-                                      ),
-                                    ),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          height: 1.8,
-                                        ),
-                                    cursorColor:
-                                        Theme.of(context).indicatorColor,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Vui lòng nhập mật khẩu';
-                                      }
-                                      if (value.length < 6) {
-                                        return 'Mật khẩu phải có ít nhất 6 ký tự';
-                                      }
-                                      return null;
-                                    },
-                                  ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: PasswordField(
+                                      controller: _passwordController),
                                 ),
                                 Align(
                                   alignment: const AlignmentDirectional(1, 0),
@@ -368,8 +223,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _login,
                             style: ElevatedButton.styleFrom(
-                              minimumSize: Size(
-                                  MediaQuery.sizeOf(context).width * 0.6, 40),
+                              minimumSize:
+                                  Size(context.querySize.width * 0.6, 40),
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 0, 0, 0),
                               backgroundColor: Theme.of(context).primaryColor,
@@ -402,8 +257,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               _navigateToRegister();
                             },
                             style: ElevatedButton.styleFrom(
-                              minimumSize: Size(
-                                  MediaQuery.sizeOf(context).width * 0.6, 40),
+                              minimumSize:
+                                  Size(context.querySize.width * 0.6, 40),
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 0, 0, 0),
                               backgroundColor: Theme.of(context).cardColor,
@@ -413,11 +268,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               ),
                             ),
                             child: Text("Đi Tới Đăng Ký",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(
-                                        color: Theme.of(context).primaryColor)),
+                                style: context.textTheme.bodyLarge?.copyWith(
+                                    color: Theme.of(context).primaryColor)),
                           ),
                         ),
                       ],
@@ -429,7 +281,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Image.asset(
-                          "assets/images/logo/branding600px.png",
+                          ImageFactory.branding600px,
                           width: 250,
                           height: 100,
                           fit: BoxFit.cover,
@@ -439,25 +291,22 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                           child: Text(
                             'Đăng Ký Tài Khoản Mới',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
-                                ?.copyWith(
-                                    color: Theme.of(context).highlightColor),
+                            style: context.textTheme.titleLarge?.copyWith(
+                                color: Theme.of(context).highlightColor),
                           ),
                         ),
                         Padding(
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                           child: Container(
-                            width: MediaQuery.sizeOf(context).width * 0.8,
+                            width: context.querySize.width * 0.8,
                             decoration: const BoxDecoration(),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Container(
-                                  width: MediaQuery.sizeOf(context).width,
+                                SizedBox(
+                                  width: context.querySize.width,
                                   child: TextFormField(
                                     controller: _nameController,
                                     autofocus: false,
@@ -465,58 +314,20 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                     decoration: InputDecoration(
                                       isDense: false,
                                       labelText: 'Họ và tên',
-                                      labelStyle: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
+                                      labelStyle: context.textTheme.bodyMedium,
                                       alignLabelWithHint: true,
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color:
-                                              Theme.of(context).indicatorColor,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      errorBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFFFF0000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      focusedErrorBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFFFF0000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
                                     ),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          height: 1.8,
-                                        ),
+                                    style:
+                                        context.textTheme.bodyMedium?.copyWith(
+                                      height: 1.8,
+                                    ),
                                     cursorColor:
                                         Theme.of(context).indicatorColor,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Vui lòng nhập họ và tên';
-                                      }
-                                      return null;
-                                    },
+                                    validator: Validator.validateName,
                                   ),
                                 ),
-                                Container(
-                                  width: MediaQuery.sizeOf(context).width,
+                                SizedBox(
+                                  width: context.querySize.width,
                                   child: TextFormField(
                                     controller: _emailController,
                                     autofocus: false,
@@ -524,142 +335,26 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                     decoration: InputDecoration(
                                       isDense: false,
                                       labelText: 'Email',
-                                      labelStyle: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
+                                      labelStyle: context.textTheme.bodyMedium,
                                       alignLabelWithHint: true,
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color:
-                                              Theme.of(context).indicatorColor,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      errorBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFFFF0000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      focusedErrorBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFFFF0000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
                                     ),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          height: 1.8,
-                                        ),
+                                    style:
+                                        context.textTheme.bodyMedium?.copyWith(
+                                      height: 1.8,
+                                    ),
                                     cursorColor:
                                         Theme.of(context).indicatorColor,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Vui lòng nhập email';
-                                      }
-                                      if (!RegExp(
-                                              r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                          .hasMatch(value)) {
-                                        return 'Vui lòng nhập email hợp lệ';
-                                      }
-                                      return null;
-                                    },
+                                    validator: Validator.validateEmail,
                                   ),
                                 ),
-                                Container(
-                                  width: MediaQuery.sizeOf(context).width,
-                                  child: TextFormField(
+                                SizedBox(
+                                  width: context.querySize.width,
+                                  child: PasswordField(
                                     controller: _passwordController,
-                                    obscureText: !_passwordVisible,
-                                    decoration: InputDecoration(
-                                      isDense: false,
-                                      labelText: 'Mật khẩu',
-                                      labelStyle: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                      alignLabelWithHint: true,
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color:
-                                              Theme.of(context).indicatorColor,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      errorBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFFFF0000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      focusedErrorBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFFFF0000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      suffixIcon: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _passwordVisible =
-                                                !_passwordVisible;
-                                          });
-                                        },
-                                        // focusNode:
-                                        //     FocusNode(skipTraversal: true),
-                                        icon: Icon(
-                                          _passwordVisible
-                                              ? Icons.visibility_off_outlined
-                                              : Icons.visibility_outlined,
-                                          color:
-                                              Theme.of(context).indicatorColor,
-                                          size: 20,
-                                        ),
-                                      ),
-                                    ),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          height: 1.8,
-                                        ),
-                                    cursorColor:
-                                        Theme.of(context).indicatorColor,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Vui lòng nhập mật khẩu';
-                                      }
-                                      if (value.length < 6) {
-                                        return 'Mật khẩu phải có ít nhất 6 ký tự';
-                                      }
-                                      return null;
-                                    },
                                   ),
                                 ),
-                                Container(
-                                  width: MediaQuery.sizeOf(context).width,
+                                SizedBox(
+                                  width: context.querySize.width,
                                   child: TextFormField(
                                     controller: _passwordRetypeController,
                                     obscureText: !_passwordVisible,
@@ -670,35 +365,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                           .textTheme
                                           .bodyMedium,
                                       alignLabelWithHint: true,
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color:
-                                              Theme.of(context).indicatorColor,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      errorBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFFFF0000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
-                                      focusedErrorBorder: UnderlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFFFF0000),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(0),
-                                      ),
                                       suffixIcon: IconButton(
                                         onPressed: () {
                                           setState(() {
@@ -747,8 +413,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _register,
                             style: ElevatedButton.styleFrom(
-                              minimumSize: Size(
-                                  MediaQuery.sizeOf(context).width * 0.6, 40),
+                              minimumSize:
+                                  Size(context.querySize.width * 0.6, 40),
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 0, 0, 0),
                               backgroundColor: Theme.of(context).primaryColor,
@@ -780,8 +446,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               _navigateToLogin();
                             },
                             style: ElevatedButton.styleFrom(
-                              minimumSize: Size(
-                                  MediaQuery.sizeOf(context).width * 0.6, 40),
+                              minimumSize:
+                                  Size(context.querySize.width * 0.6, 40),
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 0, 0, 0),
                               backgroundColor: Theme.of(context).cardColor,
@@ -814,14 +480,14 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     IconButton(
-                      icon: Image.asset("assets/images/icons/facebook50px.png"),
+                      icon: Image.asset(ImageFactory.facebook),
                       iconSize: 40,
                       onPressed: () {
                         print('IconButton pressed ...');
                       },
                     ),
                     IconButton(
-                      icon: Image.asset('assets/images/icons/google48px.png'),
+                      icon: Image.asset(ImageFactory.google),
                       iconSize: 40,
                       onPressed: () {
                         print('IconButton pressed ...');
@@ -830,8 +496,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     IconButton(
                       icon: (Theme.of(context).scaffoldBackgroundColor ==
                               const Color.fromRGBO(245, 245, 245, 1))
-                          ? Image.asset("assets/images/icons/dapple50px.png")
-                          : Image.asset("assets/images/icons/wapple50px.png"),
+                          ? Image.asset(ImageFactory.dapple)
+                          : Image.asset(ImageFactory.wapple),
                       iconSize: 40,
                       onPressed: () {
                         print('IconButton pressed ...');

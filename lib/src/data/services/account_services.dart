@@ -4,6 +4,14 @@ import 'package:http/http.dart' as http;
 import 'package:chillgo_mobile/src/core/utils/constants.dart'; //apiServerUrl
 
 class AccountService {
+
+  // Singletons
+  static final AccountService _accountService = AccountService._internal();
+  factory AccountService() {
+    return _accountService;
+  }
+  AccountService._internal();
+
   static const String baseUrl = '$apiServerUrl/accounts';
 
   //======================[ METHODS ]======================

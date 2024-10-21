@@ -9,3 +9,6 @@ const String apiServerUrl = "https://enhanced-liked-sole.ngrok-free.app/api";
 
 //package: com.exe201fa24.chillgo    (in app/src/manifest.xml)(default locate in app/build.gradle)
 
+
+// Duration
+const int defaultDuration = 300; // milliseconds

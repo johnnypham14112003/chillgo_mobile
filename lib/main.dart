@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 //Other Dart
 import 'package:chillgo_mobile/src/core/themes/colors_theme.dart';
-import 'package:chillgo_mobile/src/core/utils/account_cache.dart';
+import 'package:chillgo_mobile/src/features/user/account_provider.dart';
 
 import 'src/app.dart';
 

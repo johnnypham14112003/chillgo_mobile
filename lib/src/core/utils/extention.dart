@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 extension BuildContextExt on BuildContext {
-
   /// Returns [MediaQueryData.size] from the nearest [MediaQuery] ancestor or throws an exception, if no such ancestor exists.
   Size get querySize => MediaQuery.sizeOf(this);
 
@@ -12,4 +11,9 @@ extension BuildContextExt on BuildContext {
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
 
   TextTheme get textTheme => Theme.of(this).textTheme;
+
+  dynamic showSnackBar(String message) =>
+      ScaffoldMessenger.of(this).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
 }

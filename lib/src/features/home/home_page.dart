@@ -1,3 +1,4 @@
+import 'package:chillgo_mobile/src/core/configs/image_factory.dart';
 import 'package:chillgo_mobile/src/core/utils/extention.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
           scrollDirection: Axis.vertical,
           children: [
             Container(
-              width: MediaQuery.sizeOf(context).width,
+              width: context.querySize.width,
               height: 180,
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
@@ -48,7 +49,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                       padding:
                           const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
                       child: SizedBox(
-                        width: MediaQuery.sizeOf(context).width,
+                        width: context.querySize.width,
                         child: TextFormField(
                           //controller: _model.textController,
                           //focusNode: _model.textFieldFocusNode,
@@ -116,7 +117,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                             shape: BoxShape.circle,
                           ),
                           child: Image.asset(
-                            'assets/images/logo/user_avatar_default.png',
+                            ImageFactory.avatarDefault,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -193,7 +194,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
               child: SizedBox(
-                width: MediaQuery.sizeOf(context).width,
+                width: context.querySize.width,
                 height: 120,
                 child: Row(
                   mainAxisSize: MainAxisSize.max,

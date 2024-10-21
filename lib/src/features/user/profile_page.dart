@@ -1,4 +1,5 @@
 // Pub Packages
+import 'package:chillgo_mobile/src/core/configs/image_factory.dart';
 import 'package:chillgo_mobile/src/core/utils/extention.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,8 +36,8 @@ class ProfilePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            width: MediaQuery.sizeOf(context).width,
-            height: MediaQuery.sizeOf(context).height * 0.13,
+            width: context.querySize.width,
+            height: context.querySize.height * 0.13,
             decoration: BoxDecoration(
               color: Provider.of<ThemeColorData>(context).isDark
                   ? Theme.of(context).primaryColorDark
@@ -82,8 +83,8 @@ class ProfilePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
             child: Container(
-              width: MediaQuery.sizeOf(context).width,
-              height: MediaQuery.sizeOf(context).height * 0.19,
+              width: context.querySize.width,
+              height: context.querySize.height * 0.19,
               decoration: BoxDecoration(
                 color: Theme.of(context).scaffoldBackgroundColor,
                 shape: BoxShape.rectangle,
@@ -107,7 +108,7 @@ class ProfilePage extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(60),
                           child: Image.asset(
-                            'assets/images/logo/user_avatar_default.png',
+                            ImageFactory.avatarDefault,
                             width: 80,
                             height: 80,
                             fit: BoxFit.cover,
@@ -145,7 +146,7 @@ class ProfilePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Container(
-                        width: MediaQuery.sizeOf(context).width * 0.95,
+                        width: context.querySize.width * 0.95,
                         height: 50,
                         decoration: BoxDecoration(
                           color: Theme.of(context).cardColor,
@@ -206,7 +207,7 @@ class ProfilePage extends StatelessWidget {
                       highlightColor: Colors.transparent,
                       onTap: () async {},
                       child: Container(
-                        width: MediaQuery.sizeOf(context).width * 0.95,
+                        width: context.querySize.width * 0.95,
                         height: 50,
                         decoration: BoxDecoration(
                           color: Theme.of(context).cardColor,
@@ -267,7 +268,7 @@ class ProfilePage extends StatelessWidget {
                       highlightColor: Colors.transparent,
                       onTap: () async {},
                       child: Container(
-                        width: MediaQuery.sizeOf(context).width * 0.95,
+                        width: context.querySize.width * 0.95,
                         height: 50,
                         decoration: BoxDecoration(
                           color: Theme.of(context).cardColor,
@@ -328,7 +329,7 @@ class ProfilePage extends StatelessWidget {
                       highlightColor: Colors.transparent,
                       onTap: () async {},
                       child: Container(
-                        width: MediaQuery.sizeOf(context).width * 0.95,
+                        width: context.querySize.width * 0.95,
                         height: 50,
                         decoration: BoxDecoration(
                           color: Theme.of(context).cardColor,
@@ -391,7 +392,7 @@ class ProfilePage extends StatelessWidget {
                         //context.pushNamed('settings_page_dart');
                       },
                       child: Container(
-                        width: MediaQuery.sizeOf(context).width * 0.95,
+                        width: context.querySize.width * 0.95,
                         height: 50,
                         decoration: BoxDecoration(
                           color: Theme.of(context).cardColor,
@@ -446,7 +447,7 @@ class ProfilePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(0, 2, 0, 0),
                     child: Container(
-                      width: MediaQuery.sizeOf(context).width * 0.95,
+                      width: context.querySize.width * 0.95,
                       height: 50,
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
