@@ -1,8 +1,9 @@
 // Pub Packages
+import 'package:chillgo_mobile/src/core/utils/extention.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:chillgo_mobile/enviroment_vars/colors_theme.dart';
+import 'package:chillgo_mobile/src/core/themes/colors_theme.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -58,7 +59,7 @@ class ProfilePage extends StatelessWidget {
                     alignment: const AlignmentDirectional(0, 0.8),
                     child: Text(
                       'Tài Khoản',
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: context.textTheme.titleLarge,
                     ),
                   ),
                   Align(
@@ -114,8 +115,7 @@ class ProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text('[Username]',
-                        style: Theme.of(context).textTheme.bodyLarge),
+                    Text('[Username]', style: context.textTheme.bodyLarge),
                   ],
                 ),
               ),
@@ -169,8 +169,7 @@ class ProfilePage extends StatelessWidget {
                                       10, 0, 0, 0),
                                   child: Text(
                                     'Xem Hồ Sơ Của Tôi',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    style: context.textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
@@ -231,8 +230,7 @@ class ProfilePage extends StatelessWidget {
                                       10, 0, 0, 0),
                                   child: Text(
                                     'Yêu Thích',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    style: context.textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
@@ -293,8 +291,7 @@ class ProfilePage extends StatelessWidget {
                                       10, 0, 0, 0),
                                   child: Text(
                                     'Kế Hoạch Của Tôi',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    style: context.textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
@@ -355,8 +352,7 @@ class ProfilePage extends StatelessWidget {
                                       10, 0, 0, 0),
                                   child: Text(
                                     'Giỏ Hàng, Thanh Toán',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    style: context.textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
@@ -419,8 +415,7 @@ class ProfilePage extends StatelessWidget {
                                       10, 0, 0, 0),
                                   child: Text(
                                     'Cài Đặt',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    style: context.textTheme.bodyMedium,
                                   ),
                                 ),
                               ),

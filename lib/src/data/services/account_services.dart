@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:chillgo_mobile/enviroment_vars/constants.dart'; //apiServerUrl
+import 'package:chillgo_mobile/src/core/utils/constants.dart'; //apiServerUrl
 
 class AccountService {
   static const String baseUrl = '$apiServerUrl/accounts';

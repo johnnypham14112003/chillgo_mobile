@@ -1,8 +1,5 @@
+import 'package:chillgo_mobile/src/core/utils/extention.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:chillgo_mobile/enviroment_vars/colors_theme.dart';
-import 'package:chillgo_mobile/screens/profile_page.dart';
-import 'package:chillgo_mobile/screens/authentication_page.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -61,7 +58,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                             isDense: false,
                             alignLabelWithHint: false,
                             hintText: 'Tìm kiếm...',
-                            hintStyle: Theme.of(context).textTheme.bodyMedium,
+                            hintStyle: context.textTheme.bodyMedium,
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 //color: Color(0x00000000),
@@ -102,7 +99,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                               color: Theme.of(context).indicatorColor,
                             ),
                           ),
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: context.textTheme.bodyMedium,
                           //validator: _model.textControllerValidator.asValidator(context),
                         ),
                       ),
@@ -254,7 +251,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 child: Text(
                                   'Máy bay',
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.bodySmall,
+                                  style: context.textTheme.bodySmall,
                                 ),
                               ),
                             ],
@@ -307,7 +304,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                               Text(
                                 'Chuyến đi',
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodySmall,
+                                style: context.textTheme.bodySmall,
                               ),
                             ],
                           ),
@@ -359,7 +356,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                               Text(
                                 'Khách sạn',
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodySmall,
+                                style: context.textTheme.bodySmall,
                               ),
                             ],
                           ),
@@ -414,7 +411,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 child: Text(
                                   'Tàu hỏa',
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.bodySmall,
+                                  style: context.textTheme.bodySmall,
                                 ),
                               ),
                             ],
@@ -470,7 +467,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 child: Text(
                                   'Xe buýt',
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.bodySmall,
+                                  style: context.textTheme.bodySmall,
                                 ),
                               ),
                             ],
@@ -526,7 +523,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 child: Text(
                                   'Thuê xe',
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.bodySmall,
+                                  style: context.textTheme.bodySmall,
                                 ),
                               ),
                             ],
@@ -616,7 +613,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                         children: [
                           Text(
                             'Bạn Muốn Đi Đâu?',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: context.textTheme.bodyLarge,
                           ),
                           TextButton(
                             onPressed: () async {},
@@ -781,14 +778,13 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).cardColor),
+                                  style: context.textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(context).cardColor),
                                 ),
                               ],
                             ),
                           ),
-
                           const SizedBox(width: 10),
-
                           InkWell(
                             splashColor: Colors.transparent,
                             focusColor: Colors.transparent,
@@ -824,7 +820,8 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).cardColor),
+                                  style: context.textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(context).cardColor),
                                 ),
                               ],
                             ),
@@ -865,7 +862,8 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).cardColor),
+                                  style: context.textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(context).cardColor),
                                 ),
                               ],
                             ),
@@ -877,9 +875,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                 ),
               ),
             ),
-
             const SizedBox(width: 10),
-
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
               child: SizedBox(
@@ -898,7 +894,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                         children: [
                           Text(
                             'Top Địa Điểm Du Lịch',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: context.textTheme.bodyLarge,
                           ),
                           TextButton(
                             onPressed: () async {},
@@ -939,7 +935,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                   Stack(
+                                Stack(
                                   alignment: const AlignmentDirectional(-1, 1),
                                   children: [
                                     ClipRRect(
@@ -959,15 +955,16 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                       ),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(24),
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.transparent,
-                                              Theme.of(context).indicatorColor
-                                            ],
-                                            stops: const [0, 1],
-                                            begin: const AlignmentDirectional(-1, 0),
-                                            end: const AlignmentDirectional(1, 0),
-                                          ),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.transparent,
+                                            Theme.of(context).indicatorColor
+                                          ],
+                                          stops: const [0, 1],
+                                          begin:
+                                              const AlignmentDirectional(-1, 0),
+                                          end: const AlignmentDirectional(1, 0),
+                                        ),
                                       ),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -991,11 +988,11 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                               ],
                             ),
@@ -1056,11 +1053,11 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                               ],
                             ),
@@ -1121,11 +1118,11 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                               ],
                             ),
@@ -1186,11 +1183,11 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                               ],
                             ),
@@ -1251,11 +1248,11 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                               ],
                             ),
@@ -1289,7 +1286,7 @@ class _HomePageDartWidgetState extends State<HomePage> {
                         children: [
                           Text(
                             'Hướng Dẫn Viên Du Lịch',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: context.textTheme.bodyLarge,
                           ),
                           TextButton(
                             onPressed: () async {},
@@ -1373,11 +1370,11 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                               ],
                             ),
@@ -1438,11 +1435,11 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                               ],
                             ),
@@ -1503,11 +1500,11 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                               ],
                             ),
@@ -1568,11 +1565,11 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                               ],
                             ),
@@ -1633,11 +1630,11 @@ class _HomePageDartWidgetState extends State<HomePage> {
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                                 Text(
                                   'Hello World',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                               ],
                             ),

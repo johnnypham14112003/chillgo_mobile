@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart';
-import 'package:chillgo_mobile/enviroment_vars/account_cache.dart';
+import 'package:chillgo_mobile/src/core/utils/account_cache.dart';
 
-import 'package:chillgo_mobile/models/account_model.dart';
-import 'package:chillgo_mobile/services/account_services.dart';
-import 'package:chillgo_mobile/screens/home_page.dart';
+import 'package:chillgo_mobile/src/models/account_model.dart';
+import 'package:chillgo_mobile/src/data/services/account_services.dart';
+import 'package:chillgo_mobile/src/features/home/home_page.dart';
+import 'package:chillgo_mobile/src/core/utils/extention.dart';
 
 class AuthenticationPage extends StatefulWidget {
-  AuthenticationPage({super.key});
+  const AuthenticationPage({super.key});
 
   @override
   _AuthenticationPageState createState() => _AuthenticationPageState();
@@ -24,7 +25,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   final PageController _pageController = PageController(initialPage: 0);
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordRetypeController = TextEditingController();
+  final TextEditingController _passwordRetypeController =
+      TextEditingController();
   final TextEditingController _nameController = TextEditingController();
 
   //----------------------[ States ]----------------------
@@ -96,10 +98,12 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
 
       if (response.statusCode == 200) {
         final account = Account.fromJson(jsonDecode(response.body));
-        await Provider.of<AccountProvider>(context, listen: false).saveAccount(account);
-        
+        await Provider.of<AccountProvider>(context, listen: false)
+            .saveAccount(account);
+
         //Navigate to home page
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const HomePage()));
       } else if (response.statusCode >= 400 && response.statusCode <= 499) {
         _showSnackBar('Lỗi Client! Mã lỗi: ${response.statusCode}');
       } else if (response.statusCode >= 500) {
@@ -167,7 +171,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           child: Text(
                             'Đăng nhập để trải nghiệm ứng dụng cùng mình nhé!',
                             textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            style: context.textTheme.bodyMedium,
                           ),
                         ),
                         Padding(
@@ -388,7 +392,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         ),
                         Text(
                           'Bạn chưa có tài khoản?',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: context.textTheme.bodyMedium,
                         ),
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
@@ -566,7 +570,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                       if (value == null || value.isEmpty) {
                                         return 'Vui lòng nhập email';
                                       }
-                                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                                      if (!RegExp(
+                                              r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                          .hasMatch(value)) {
                                         return 'Vui lòng nhập email hợp lệ';
                                       }
                                       return null;
@@ -617,7 +623,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                       suffixIcon: IconButton(
                                         onPressed: () {
                                           setState(() {
-                                            _passwordVisible = !_passwordVisible;
+                                            _passwordVisible =
+                                                !_passwordVisible;
                                           });
                                         },
                                         // focusNode:
@@ -695,7 +702,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                       suffixIcon: IconButton(
                                         onPressed: () {
                                           setState(() {
-                                            _passwordVisible = !_passwordVisible;
+                                            _passwordVisible =
+                                                !_passwordVisible;
                                           });
                                         },
                                         // focusNode:
@@ -718,7 +726,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                         ),
                                     cursorColor:
                                         Theme.of(context).indicatorColor,
-                                    validator:(value) {
+                                    validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Vui lòng nhập lại mật khẩu';
                                       }
@@ -751,17 +759,18 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                             ),
                             child: _isLoading
                                 ? const CircularProgressIndicator()
-                                :Text("Đăng Kí",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(
-                                        color: Theme.of(context).cardColor)),
+                                : Text("Đăng Kí",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.copyWith(
+                                            color:
+                                                Theme.of(context).cardColor)),
                           ),
                         ),
                         Text(
                           'Bạn đã có tài khoản?',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: context.textTheme.bodyMedium,
                         ),
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
@@ -796,7 +805,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               ),
               Text(
                 'Hoặc tiếp tục với',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: context.textTheme.bodyMedium,
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),

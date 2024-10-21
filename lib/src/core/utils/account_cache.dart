@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'package:chillgo_mobile/models/account_model.dart';
+import 'package:chillgo_mobile/src/models/account_model.dart';
 
 class AccountProvider with ChangeNotifier {
   SharedPreferences? _prefs;
