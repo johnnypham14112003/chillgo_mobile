@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'core/themes/colors_theme.dart';
+import 'features/auth/authentication_page.dart';
 import 'features/home/home_page.dart';
 
 class MyApp extends StatelessWidget {
@@ -13,15 +14,13 @@ class MyApp extends StatelessWidget {
     //Sync with system and load theme
     Provider.of<ThemeColorData>(context, listen: false)
         .loadThemeFromSharedPref(context);
-
     return MaterialApp(
       title: 'Chillgo',
       debugShowCheckedModeBanner: false,
-
       //App theme get from 'Provider'  which ref the getter 'themeColor' in class ThemeColorData
       theme: Provider.of<ThemeColorData>(context).themeColor,
-      //home: AuthenticationPage(),
-      home: const HomePage(),
+      home: AuthenticationPage(),
+      // home: const HomePage(),
       //home: ProfilePage(),
     );
   }
