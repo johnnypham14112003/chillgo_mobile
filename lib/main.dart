@@ -1,4 +1,6 @@
 // Pub Packages
+import 'package:chillgo_mobile/src/features/auth/auth_provider.dart';
+import 'package:chillgo_mobile/src/features/location/location_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +30,12 @@ void main() async {
         ),
         ChangeNotifierProvider<AccountProvider>(
           create: (BuildContext context) => accountProvider,
+        ),
+        ChangeNotifierProvider(
+          create: (BuildContext context) => AuthProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (BuildContext context) => LocationProvider(),
         ),
       ],
       child: const MyApp(),

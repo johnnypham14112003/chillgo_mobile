@@ -3,7 +3,6 @@ import 'package:chillgo_mobile/src/core/configs/image_factory.dart';
 import 'package:chillgo_mobile/src/core/utils/constants.dart';
 import 'package:chillgo_mobile/src/features/auth/auth_provider.dart';
 import 'package:chillgo_mobile/src/features/auth/widgets/register_form.dart';
-import 'package:chillgo_mobile/src/features/home/home_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:chillgo_mobile/src/core/utils/extention.dart';
@@ -25,7 +24,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
 
   final PageController _pageController = PageController(initialPage: 0);
   final TextEditingController _emailController =
-      TextEditingController(text: kDebugMode ? 'chillgo@gmail.com' : null);
+      TextEditingController(text: kDebugMode ? 'hieu@gmail.com' : null);
   final TextEditingController _passwordController =
       TextEditingController(text: kDebugMode ? 'Admin123@' : null);
   final TextEditingController _passwordRetypeController =
@@ -71,7 +70,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
     });
   }
 
-  void _login() async {
+  void _login() {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -79,21 +78,17 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
     setState(() {
       _isLoading = true;
     });
-
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const HomePage()),
-        (route) => false);
-    // context
-    //     .read<AuthProvider>()
-    //     .login(
-    //         context: context,
-    //         email: _emailController.text,
-    //         password: _passwordController.text)
-    //     .whenComplete(() {
-    setState(() {
-      _isLoading = false;
+    context
+        .read<AuthProvider>()
+        .login(
+            context: context,
+            email: _emailController.text,
+            password: _passwordController.text)
+        .whenComplete(() {
+      setState(() {
+        _isLoading = false;
+      });
     });
-    // });
   }
 
 //----------------------[ UI ]----------------------

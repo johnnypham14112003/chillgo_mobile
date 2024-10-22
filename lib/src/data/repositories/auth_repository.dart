@@ -1,9 +1,16 @@
-import 'package:chillgo_mobile/src/data/api_client.dart';
+import '../api_client.dart';
 
 class AuthRepository {
-  final _apiClient = ApiClient();
+  //singleton
+  static final AuthRepository _instance = AuthRepository._();
+  factory AuthRepository() {
+    return _instance;
+  }
+  AuthRepository._();
+
+  final path = '/accounts';
   Future login(String email, String password) async {
-    final response = await _apiClient.post('/login', body: {
+    final response = await apiClient.post('$path/login', body: {
       'email': email,
       'password': password,
     });
@@ -11,10 +18,7 @@ class AuthRepository {
   }
 
   Future register(String fullname, String email, String password) async {
-    final response = await _apiClient.post('/register', headers: {
-      // 'Content-Type': 'application/json',
-      // "ngrok-skip-browser-warning": "1"
-    }, body: {
+    final response = await apiClient.post('$path/register', body: {
       'full-name': fullname,
       'email': email,
       'password': password,

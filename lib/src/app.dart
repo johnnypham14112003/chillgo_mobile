@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import 'core/themes/colors_theme.dart';
 import 'features/auth/authentication_page.dart';
-import 'features/home/home_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       //App theme get from 'Provider'  which ref the getter 'themeColor' in class ThemeColorData
       theme: Provider.of<ThemeColorData>(context).themeColor,
-      home: AuthenticationPage(),
+      home: const AuthenticationPage(),
       // home: const HomePage(),
       //home: ProfilePage(),
     );

@@ -4,6 +4,7 @@ import 'package:chillgo_mobile/src/features/preferential/preferential_page.dart'
 import 'package:chillgo_mobile/src/features/user/profile_page.dart';
 import 'package:flutter/material.dart';
 
+import 'core/themes/gap.dart';
 import 'features/home/home_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -31,19 +32,39 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBody: true,
       body: IndexedStack(
         index: _currentIndex,
         children: _children,
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (value) => setState(() {
-          _currentIndex = value;
-        }),
-        destinations: EnumDestinations.values.map((item) {
-          return NavigationDestination(
-              icon: Icon(item.icon), label: item.label);
-        }).toList(),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(Gap.m, 0, Gap.m, Gap.s),
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Gap.l),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.8),
+                  spreadRadius: 0,
+                  blurRadius: 4,
+                  offset: const Offset(2, 2),
+                ),
+              ]),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(Gap.l),
+            child: NavigationBar(
+              selectedIndex: _currentIndex,
+              onDestinationSelected: (value) => setState(() {
+                _currentIndex = value;
+              }),
+              destinations: EnumDestinations.values.map((item) {
+                return NavigationDestination(
+                    icon: Icon(item.icon), label: item.label);
+              }).toList(),
+            ),
+          ),
+        ),
       ),
     );
   }

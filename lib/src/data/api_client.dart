@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:chillgo_mobile/src/core/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
+final ApiClient apiClient = ApiClient();
+
 class ApiClient {
   late String baseUrl;
   late Map<String, String> defaultHeaders;
@@ -29,7 +31,7 @@ class ApiClient {
     Map<String, String>? params,
   }) async {
     try {
-      final url = Uri.https(baseUrl, path, params);
+      final url = Uri.parse('$baseUrl/$path');
       final res = await http.get(
         url,
         headers: {...defaultHeaders, ...?headers},
@@ -52,7 +54,7 @@ class ApiClient {
     Map<String, String>? params,
     Map<String, dynamic>? body,
   }) async {
-    final url = Uri.https(baseUrl, path, params);
+    final url = Uri.parse('$baseUrl/$path');
     final res = await http.post(
       url,
       headers: {...defaultHeaders, ...?headers},
@@ -73,7 +75,7 @@ class ApiClient {
     Map<String, String>? params,
     Map<String, dynamic>? body,
   }) async {
-    final url = Uri.https(baseUrl, path, params);
+    final url = Uri.parse('$baseUrl/$path');
     final res = await http.put(
       url,
       headers: {...defaultHeaders, ...?headers},
@@ -93,7 +95,7 @@ class ApiClient {
     Map<String, String>? headers,
     Map<String, String>? params,
   }) async {
-    final url = Uri.https(baseUrl, path, params);
+    final url = Uri.parse('$baseUrl/$path');
     final res = await http.delete(
       url,
       headers: {...defaultHeaders, ...?headers},
