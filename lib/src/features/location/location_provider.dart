@@ -15,12 +15,12 @@ class LocationProvider extends ChangeNotifier {
 
   //get location khi class đc khởi tạo
   LocationProvider() {
-    _init();
+    init();
   }
 
-  _init() {
-    getTopLocation();
-    getRandomLocation();
+  init() async {
+    await getTopLocation();
+    await getRandomLocation();
     notifyListeners();
   }
 
@@ -29,11 +29,15 @@ class LocationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getTopLocation() async {
+  Future<void> getTopLocation([bool isNotify = false]) async {
     _topLocations = await _repository.getTopLocation();
+
+    if (isNotify) {
+      notifyListeners();
+    }
   }
 
   Future<void> getRandomLocation() async {
-    _topLocations = await _repository.getRandomLocation();
+    _randomLocations = await _repository.getRandomLocation();
   }
 }

@@ -20,7 +20,6 @@ class ApiClient {
   }
   ApiClient._();
 
-
   void setToken(String token) {
     defaultHeaders['Authorization'] = 'Bearer $token';
   }
@@ -107,5 +106,27 @@ class ApiClient {
     }
 
     return jsonDecode(res.body);
+  }
+
+  Future<dynamic> upFile(
+    String path, {
+    required String filePath,
+    required Map<String, String> body,
+  }) async {
+    final url = Uri.parse('$baseUrl/$path');
+    var request = http.MultipartRequest('POST', url);
+    request.fields.addAll(body);
+    request.headers.addAll(defaultHeaders);
+    request.files.add(await http.MultipartFile.fromPath('File', filePath));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      final source = await response.stream.bytesToString();
+      return jsonDecode(source);
+    } else {
+      print(response.reasonPhrase);
+      return null;
+    }
   }
 }

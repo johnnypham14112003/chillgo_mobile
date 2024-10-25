@@ -1,6 +1,8 @@
 import 'package:chillgo_mobile/src/core/themes/gap.dart';
+import 'package:chillgo_mobile/src/core/utils/constants.dart';
 import 'package:chillgo_mobile/src/core/utils/extention.dart';
 import 'package:chillgo_mobile/src/features/location/location_provider.dart';
+import 'package:chillgo_mobile/src/features/location/page/all_location_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +14,7 @@ class TopLocation extends StatelessWidget {
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(0, Gap.s, 0, Gap.s),
       child: SizedBox(
-        height: context.querySize.width * 0.6,
+        height: context.querySize.width * 0.5,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -25,19 +27,25 @@ class TopLocation extends StatelessWidget {
                 children: [
                   Text(
                     'Top Địa Điểm Du Lịch',
-                    style: context.textTheme.bodyLarge,
+                    style: context.textTheme.titleMedium,
                   ),
                   TextButton(
-                    onPressed: () async {},
+                    onPressed: () {
+                      context.push(
+                        const AllLocationPage(
+                          title: 'Top Địa Điểm Du Lịch',
+                        ),
+                      );
+                    },
                     style: TextButton.styleFrom(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                        backgroundColor: const Color(0x00FFFFFF),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0),
-                        )),
+                      padding: EdgeInsets.zero,
+                      backgroundColor: const Color(0x00FFFFFF),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      ),
+                    ),
                     child: Text('Xem thêm',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        style: context.textTheme.bodySmall?.copyWith(
                             color: Theme.of(context).primaryColorLight,
                             decoration: TextDecoration.underline,
                             decorationColor:
@@ -54,73 +62,92 @@ class TopLocation extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   children: provider.topLocations
                       .map((item) => Padding(
-                            padding: const EdgeInsets.only(left: Gap.s),
+                            padding: const EdgeInsets.only(
+                                left: Gap.s, bottom: Gap.s),
                             child: GestureDetector(
                               onTap: () async {},
-                              child: SizedBox(
+                              child: Container(
                                 width: context.querySize.width * 0.4,
+                                padding: const EdgeInsets.all(Gap.xs),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(Gap.s),
+                                  color: context.theme.cardColor,
+                                  boxShadow: [boxShadow],
+                                ),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
-                                      child: Stack(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(Gap.s),
-                                            child: Image.network(
-                                              item.images.first,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          Positioned(
-                                            left: Gap.xxs,
-                                            bottom: Gap.xxs,
-                                            child: Container(
-                                              height: 25,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(Gap.s),
+                                              border: Border.all(
+                                                  width: 3,
+                                                  color: context
+                                                      .theme.primaryColor),
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                  item.images.first,
+                                                ),
+                                              )),
+                                          child: Stack(
+                                            children: [
+                                              Positioned(
+                                                left: Gap.xxs,
+                                                bottom: Gap.xxs,
+                                                child: Container(
+                                                  height: 25,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
                                                       horizontal: Gap.xs),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        Gap.l),
-                                                gradient: LinearGradient(
-                                                  colors: [
-                                                    Colors.transparent,
-                                                    Theme.of(context)
-                                                        .indicatorColor
-                                                  ],
-                                                  stops: const [0, 1],
-                                                  begin:
-                                                      const AlignmentDirectional(
-                                                          -1, 0),
-                                                  end:
-                                                      const AlignmentDirectional(
-                                                          1, 0),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            Gap.l),
+                                                    gradient: LinearGradient(
+                                                      colors: [
+                                                        Colors.transparent,
+                                                        Theme.of(context)
+                                                            .indicatorColor
+                                                      ],
+                                                      stops: const [0, 1],
+                                                      begin:
+                                                          const AlignmentDirectional(
+                                                              -1, 0),
+                                                      end:
+                                                          const AlignmentDirectional(
+                                                              1, 0),
+                                                    ),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.star_rounded,
+                                                        color: Theme.of(context)
+                                                            .secondaryHeaderColor,
+                                                        size: 24,
+                                                      ),
+                                                      Text(
+                                                        item.totalRating
+                                                            .toString(),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodySmall,
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Icon(
-                                                    Icons.star_rounded,
-                                                    color: Theme.of(context)
-                                                        .secondaryHeaderColor,
-                                                    size: 24,
-                                                  ),
-                                                  Text(
-                                                    item.totalRating.toString(),
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodySmall,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                            ],
                                           ),
-                                        ],
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(height: Gap.s),
@@ -132,9 +159,38 @@ class TopLocation extends StatelessWidget {
                                           ?.copyWith(
                                               fontWeight: FontWeight.bold),
                                     ),
-                                    Text(
-                                      item.ticketPrice.toString(),
-                                      style: context.textTheme.bodySmall,
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'từ ${item.ticketPrice!.round()}đ',
+                                            style: context.textTheme.bodySmall
+                                                ?.copyWith(
+                                                    color: context
+                                                        .theme.primaryColor),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                          child: FilledButton(
+                                            onPressed: () {},
+                                            style: FilledButton.styleFrom(
+                                              backgroundColor: context
+                                                  .theme.secondaryHeaderColor,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: Gap.s),
+                                            ),
+                                            child: Text(
+                                              'Mua ngay',
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: context
+                                                      .theme.primaryColor),
+                                            ),
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ],
                                 ),

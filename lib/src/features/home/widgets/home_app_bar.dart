@@ -1,10 +1,12 @@
 import 'package:chillgo_mobile/src/core/configs/image_factory.dart';
 import 'package:chillgo_mobile/src/core/themes/gap.dart';
 import 'package:chillgo_mobile/src/core/utils/extention.dart';
+import 'package:chillgo_mobile/src/features/user/account_provider.dart';
+import 'package:chillgo_mobile/src/features/widgets/search_field.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../payment_method/payment_method_page.dart';
-import 'search_field.dart';
+import '../../cart/cart_page.dart';
 
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({super.key});
@@ -29,87 +31,89 @@ class HomeAppBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, Gap.xl, 0, 0),
               child: SizedBox(
                 width: context.querySize.width,
                 child: const SearchField(),
               ),
             ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: 45,
-                  height: 45,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.asset(
-                    ImageFactory.avatarDefault,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(Gap.s, 0, 0, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Xin chào,',
-                          style: context.textTheme.bodyMedium
-                              ?.copyWith(color: Theme.of(context).cardColor),
-                        ),
-                        Text(
-                          'Người dùng',
-                          style: context.textTheme.bodyLarge?.copyWith(
-                              color: Theme.of(context).secondaryHeaderColor),
-                        ),
-                      ],
+            Consumer<AccountProvider>(builder: (context, provider, child) {
+              return Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 45,
+                    height: 45,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset(
+                      ImageFactory.avatarDefault,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: const AlignmentDirectional(10, 0),
-                    child: GestureDetector(
-                      onTap: () async {},
-                      child: Row(children: [
-                        Icon(
-                          Icons.place,
-                          color: Theme.of(context).cardColor,
-                          size: 16,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          "Việt Nam",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(color: Theme.of(context).cardColor),
-                        ),
-                      ]),
+                  Expanded(
+                    child: Padding(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(Gap.s, 0, 0, 0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Xin chào,',
+                            style: context.textTheme.bodyMedium
+                                ?.copyWith(color: Theme.of(context).cardColor),
+                          ),
+                          Text(
+                            provider.account?.fullName ?? 'Người dùng',
+                            style: context.textTheme.bodyLarge?.copyWith(
+                                color: Theme.of(context).secondaryHeaderColor),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.notifications_rounded,
-                    color: Theme.of(context).cardColor,
-                    size: 25,
+                  Expanded(
+                    child: Align(
+                      alignment: const AlignmentDirectional(10, 0),
+                      child: GestureDetector(
+                        onTap: () async {},
+                        child: Row(children: [
+                          Icon(
+                            Icons.place,
+                            color: Theme.of(context).cardColor,
+                            size: 16,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            "Việt Nam",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(color: Theme.of(context).cardColor),
+                          ),
+                        ]),
+                      ),
+                    ),
                   ),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const PaymentMethodPage(),
-                    ));
-                  },
-                ),
-              ],
-            ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.notifications_rounded,
+                      color: Theme.of(context).cardColor,
+                      size: 25,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const CartPage(),
+                      ));
+                    },
+                  ),
+                ],
+              );
+            }),
           ],
         ),
       ),

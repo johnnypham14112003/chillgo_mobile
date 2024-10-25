@@ -1,6 +1,8 @@
 // Pub Packages
 import 'package:chillgo_mobile/src/features/auth/auth_provider.dart';
+import 'package:chillgo_mobile/src/features/blog/blog_provider.dart';
 import 'package:chillgo_mobile/src/features/location/location_provider.dart';
+import 'package:chillgo_mobile/src/features/cart/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +38,13 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (BuildContext context) => LocationProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (BuildContext context) => CartProvider(),
+        ),
+
+        ChangeNotifierProvider(
+          create: (BuildContext context) => BlogProvider(),
         ),
       ],
       child: const MyApp(),

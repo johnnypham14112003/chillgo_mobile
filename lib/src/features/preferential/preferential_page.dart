@@ -1,3 +1,4 @@
+import 'package:chillgo_mobile/src/features/widgets/wrapper_page.dart';
 import 'package:flutter/material.dart';
 
 class PreferentialPage extends StatelessWidget {
@@ -5,6 +6,11 @@ class PreferentialPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const WrapperPage(
+        titleAppBar: 'Ưu đãi',
+        isMainPage: true,
+        child: Column(
+          children: [],
+        ));
   }
 }

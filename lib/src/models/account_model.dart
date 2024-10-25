@@ -41,6 +41,8 @@ class Account {
 
   final String status;
 
+  String? avatarUrl;
+
   //Constructor
   Account(
       {required this.id,
@@ -63,7 +65,8 @@ class Account {
       this.rating = 0,
       this.companyName,
       required this.role,
-      required this.status});
+      required this.status,
+      this.avatarUrl});
 
   // Parse Json to Model
   // factory Account.fromJson(Map<String, dynamic> json) {
@@ -106,6 +109,7 @@ class Account {
       gender: json["gender"],
       role: json["role"],
       status: json["status"],
+      avatarUrl: json["avatar-url"].isEmpty ? null : json["avatar-url"],
     );
   }
 

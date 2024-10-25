@@ -10,7 +10,7 @@ var light = ThemeData(
     secondaryHeaderColor: const Color.fromRGBO(205, 238, 0, 1),
     highlightColor: const Color.fromRGBO(238, 160, 255, 1),
     scaffoldBackgroundColor: const Color.fromRGBO(245, 245, 245, 1),
-    cardColor: const Color.fromRGBO(223, 217, 210, 1),
+    cardColor: Colors.white,
     indicatorColor: const Color.fromRGBO(32, 38, 45, 1),
     inputDecorationTheme: InputDecorationTheme(
       enabledBorder: UnderlineInputBorder(
@@ -51,31 +51,31 @@ var light = ThemeData(
     fontFamily: 'Montserrat',
     textTheme: const TextTheme(
       titleLarge: TextStyle(
-        fontSize: 30,
         letterSpacing: 1,
         fontWeight: FontWeight.bold,
         color: Color.fromRGBO(32, 38, 45, 1),
       ),
       titleMedium: TextStyle(
-        fontSize: 30,
         letterSpacing: 1,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.bold,
+        color: Color.fromRGBO(32, 38, 45, 1),
+      ),
+      titleSmall: TextStyle(
+        letterSpacing: 1,
+        fontWeight: FontWeight.bold,
         color: Color.fromRGBO(32, 38, 45, 1),
       ),
       bodyLarge: TextStyle(
-        fontSize: 22,
         letterSpacing: 1,
         fontWeight: FontWeight.bold,
         color: Color.fromRGBO(32, 38, 45, 1),
       ),
       bodyMedium: TextStyle(
-        fontSize: 20,
         letterSpacing: 1,
         fontWeight: FontWeight.normal,
         color: Color.fromRGBO(32, 38, 45, 1),
       ),
       bodySmall: TextStyle(
-        fontSize: 14,
         letterSpacing: 1,
         fontWeight: FontWeight.normal,
         color: Color.fromRGBO(32, 38, 45, 1),

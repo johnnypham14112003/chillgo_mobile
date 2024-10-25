@@ -29,6 +29,19 @@ class AuthRepository {
   Future getAccount() async {}
 
   Future updateAccount(String email, String password) async {}
+  Future<bool> updateAvatar(
+      String filePath, String accountId, String name) async {
+    final response = await apiClient.upFile('image', filePath: filePath, body: {
+      'FileName': name,
+      'IsAvatar': 'true',
+      'Type': '1',
+      'Status': 'Đã Tải Lên',
+      'AccountId': accountId,
+      'LocationId': ''
+    });
+
+    return response;
+  }
 
   Future logout() async {}
 }

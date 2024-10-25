@@ -24,7 +24,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
 
   final PageController _pageController = PageController(initialPage: 0);
   final TextEditingController _emailController =
-      TextEditingController(text: kDebugMode ? 'hieu@gmail.com' : null);
+      TextEditingController(text: kDebugMode ? 'hieu2@gmail.com' : null);
   final TextEditingController _passwordController =
       TextEditingController(text: kDebugMode ? 'Admin123@' : null);
   final TextEditingController _passwordRetypeController =
@@ -56,18 +56,21 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
       _isLoading = true;
     });
 
-    context
-        .read<AuthProvider>()
-        .register(
-            context: context,
-            name: _nameController.text,
-            email: _emailController.text,
-            password: _passwordController.text)
-        .whenComplete(() {
-      setState(() {
-        _isLoading = false;
+    context.read<AuthProvider>().register(
+        context: context,
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text)
+      ..then((value) {
+        if (value) {
+          _navigateToLogin();
+        }
+      })
+      ..whenComplete(() {
+        setState(() {
+          _isLoading = false;
+        });
       });
-    });
   }
 
   void _login() {

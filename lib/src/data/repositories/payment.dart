@@ -9,13 +9,12 @@ import 'package:sprintf/sprintf.dart';
 
 class ZaloPayConfig {
   static const String appId = "2554";
-  static const String key1 = "sdngKKJmqEMzvh5QQcdD2A9XBSKUNaYn";
-  static const String key2 = "trMrHtvjo6myautxDUiAcYsVtaeQ8nhf";
+  static const String key1 = String.fromEnvironment('ZALO_PAY_KEY1');
+  static const String key2 = String.fromEnvironment('ZALO_PAY_KEY2');
 
   static const String appUser = "zalopaydemo";
   static int transIdDefault = 1;
 }
-
 
 Future<CreateOrderResponse?> createOrder(int price) async {
   var header = <String, String>{};
@@ -30,7 +29,7 @@ Future<CreateOrderResponse?> createOrder(int price) async {
   body["embed_data"] = "{}";
   body["item"] = "[]";
   body["bank_code"] = utils.getBankCode();
-  body["description"] = utils.getDescription(body["app_trans_id"]??'');
+  body["description"] = utils.getDescription(body["app_trans_id"] ?? '');
 
   var dataGetMac = sprintf("%s|%s|%s|%s|%s|%s|%s", [
     body["app_id"],

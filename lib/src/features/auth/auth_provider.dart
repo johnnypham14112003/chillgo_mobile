@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:chillgo_mobile/src/core/utils/extention.dart';
 import 'package:chillgo_mobile/src/data/services/account_services.dart';
+import 'package:chillgo_mobile/src/features/location/location_provider.dart';
 import 'package:chillgo_mobile/src/features/user/account_provider.dart';
 import 'package:chillgo_mobile/src/features/widgets/dialog_custom.dart';
 import 'package:chillgo_mobile/src/main_page.dart';
@@ -32,6 +33,7 @@ class AuthProvider extends ChangeNotifier {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const MainPage()),
             (route) => false);
+        context.read<LocationProvider>().init();
       } else if (response.statusCode >= 400 && response.statusCode <= 499) {
         context.showSnackBar('Lỗi Client! Mã lỗi: ${response.statusCode}');
       } else if (response.statusCode >= 500) {
@@ -45,7 +47,7 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future register(
+  Future<bool> register(
       {required BuildContext context,
       required String name,
       required String email,
@@ -56,18 +58,20 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 201 || response.statusCode == 200) {
         context.showSnackBar('Tạo thành công!');
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const MainPage()),
-            (route) => false);
+        return true;
       } else if (response.statusCode >= 400 && response.statusCode <= 499) {
         context.showSnackBar('Lỗi Client! Mã lỗi: ${response.statusCode}');
+        return false;
       } else if (response.statusCode >= 500) {
         context.showSnackBar('Lỗi Server! Mã lỗi: ${response.statusCode}');
+        return false;
       } else {
         context.showSnackBar('Lỗi không xác định!');
+        return false;
       }
     } catch (e) {
       context.showSnackBar('Lỗi kết nối! Vui lòng thử lại');
+      return false;
     }
   }
 }

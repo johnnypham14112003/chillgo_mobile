@@ -1,7 +1,8 @@
+import 'package:chillgo_mobile/src/core/utils/extention.dart';
 import 'package:chillgo_mobile/src/features/blog/blog_page.dart';
 import 'package:chillgo_mobile/src/features/chat_bot/chat_bot_page.dart';
 import 'package:chillgo_mobile/src/features/preferential/preferential_page.dart';
-import 'package:chillgo_mobile/src/features/user/profile_page.dart';
+import 'package:chillgo_mobile/src/features/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
 
 import 'core/themes/gap.dart';
@@ -24,7 +25,7 @@ class _MainPageState extends State<MainPage> {
       const BlogPage(),
       const ChatBotPage(),
       const PreferentialPage(),
-      ProfilePage(),
+      const ProfilePage(),
     ];
     super.initState();
   }
@@ -42,24 +43,31 @@ class _MainPageState extends State<MainPage> {
         padding: const EdgeInsets.fromLTRB(Gap.m, 0, Gap.m, Gap.s),
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Gap.l),
+              color: context.theme.cardColor,
+              borderRadius: BorderRadius.circular(Gap.xxl),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.8),
+                  color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 0,
                   blurRadius: 4,
                   offset: const Offset(2, 2),
                 ),
               ]),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(Gap.l),
-            child: NavigationBar(
-              selectedIndex: _currentIndex,
-              onDestinationSelected: (value) => setState(() {
+            borderRadius: BorderRadius.circular(Gap.xxl),
+            child: BottomNavigationBar(
+              backgroundColor: context.theme.cardColor,
+              currentIndex: _currentIndex,
+              selectedItemColor: context.theme.primaryColor,
+              unselectedItemColor: Colors.black87,
+              type: BottomNavigationBarType.fixed,
+              selectedFontSize: 10,
+              unselectedFontSize: 10,
+              onTap: (value) => setState(() {
                 _currentIndex = value;
               }),
-              destinations: EnumDestinations.values.map((item) {
-                return NavigationDestination(
+              items: EnumDestinations.values.map((item) {
+                return BottomNavigationBarItem(
                     icon: Icon(item.icon), label: item.label);
               }).toList(),
             ),

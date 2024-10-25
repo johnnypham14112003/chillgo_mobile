@@ -15,7 +15,7 @@ import vn.zalopay.sdk.ZaloPayError
 import vn.zalopay.sdk.ZaloPaySDK
 import vn.zalopay.sdk.listeners.PayOrderListener
 
-class MainActivity: FlutterActivity(){
+class MainActivity: FlutterActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,24 +41,38 @@ class MainActivity: FlutterActivity(){
                         ZaloPaySDK.getInstance().payOrder(this@MainActivity, token !!, "demozpdk://app",object: PayOrderListener {
                             override fun onPaymentCanceled(zpTransToken: String?, appTransID: String?) {
                                 Log.d(tagCanel, String.format("[TransactionId]: %s, [appTransID]: %s", zpTransToken, appTransID))
-                                result.success("User Canceled")
+                                result.success(mapOf(
+                                    "errorCode" to 4, 
+                                    "zpTranstoken" to zpTransToken,
+                                    "appTransId" to appTransID,
+                                  ))
                             }
 
                             override fun onPaymentError(zaloPayErrorCode: ZaloPayError?, zpTransToken: String?, appTransID: String?) {
                                 Log.d(tagError, String.format("[zaloPayErrorCode]: %s, [zpTransToken]: %s, [appTransID]: %s", zaloPayErrorCode.toString(), zpTransToken, appTransID))
-                                result.success("Payment failed")
+                                result.success(mapOf(
+                                    "errorCode" to -1,
+                                    "zpTranstoken" to zpTransToken,
+                                    "appTransId" to appTransID,
+                                  ))
                             }
 
                             override fun onPaymentSucceeded(transactionId: String, transToken: String, appTransID: String?) {
                                 Log.d(tagSuccess, String.format("[TransactionId]: %s, [TransToken]: %s, [appTransID]: %s", transactionId, transToken, appTransID))
-                                result.success("Payment Success")
+                                result.success(mapOf(
+                                    "errorCode" to 1, 
+                                    "zpTranstoken" to transToken,
+                                    "transactionId" to transactionId,
+                                    "appTransId" to appTransID,
+                                  ))
                             }
                         })
                 } else {
                     Log.d("[METHOD CALLER] ", "Method Not Implemented")
-                    result.success("Payment failed")
+                    result.success(mapOf(
+                        "errorCode" to -1
+                      ))
                 }
             }
     }
 }
-

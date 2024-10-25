@@ -1,210 +1,91 @@
-import 'dart:io';
-
-import 'package:chillgo_mobile/src/data/repositories/payment.dart';
+import 'package:chillgo_mobile/src/core/configs/image_factory.dart';
+import 'package:chillgo_mobile/src/core/themes/gap.dart';
+import 'package:chillgo_mobile/src/core/utils/constants.dart';
+import 'package:chillgo_mobile/src/core/utils/extention.dart';
+import 'package:chillgo_mobile/src/features/cart/cart_provider.dart';
+import 'package:chillgo_mobile/src/features/widgets/wrapper_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
-class PaymentMethodPage extends StatefulWidget {
+class PaymentMethodPage extends StatelessWidget {
   const PaymentMethodPage({super.key});
 
   @override
-  State<PaymentMethodPage> createState() => _PaymentMethodPageState();
-}
-
-class _PaymentMethodPageState extends State<PaymentMethodPage> {
-  static const EventChannel eventChannel =
-      EventChannel('flutter.native/eventPayOrder');
-  static const MethodChannel platform =
-      MethodChannel('flutter.native/channelPayOrder');
-  final textStyle = const TextStyle(color: Colors.black54);
-  final valueStyle =
-      const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400);
-  String zpTransToken = "";
-  String payResult = "";
-  String payAmount = "10000";
-  bool showResult = false;
-  @override
-  void initState() {
-    super.initState();
-    if (Platform.isIOS) {
-      eventChannel.receiveBroadcastStream().listen(_onEvent, onError: _onError);
-    }
-  }
-
-  void _onEvent(dynamic event) {
-    print("_onEvent: '$event'.");
-    var res = Map<String, dynamic>.from(event);
-    setState(() {
-      if (res["errorCode"] == 1) {
-        payResult = "Thanh toán thành công";
-      } else if (res["errorCode"] == 4) {
-        payResult = "User hủy thanh toán";
-      } else {
-        payResult = "Giao dịch thất bại";
-      }
-    });
-  }
-
-  void _onError(Object error) {
-    print("_onError: '$error'.");
-    setState(() {
-      payResult = "Giao dịch thất bại";
-    });
-  }
-
-  // Button Create Order
-  Widget _btnCreateOrder(String value) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-        child: GestureDetector(
-          onTap: () async {
-            int amount = int.parse(value);
-            if (amount < 1000 || amount > 1000000) {
-              setState(() {
-                zpTransToken = "Invalid Amount";
-              });
-            } else {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  });
-              var result = await createOrder(amount);
-              if (result != null) {
-                Navigator.pop(context);
-                zpTransToken = result.zptranstoken;
-                setState(() {
-                  zpTransToken = result.zptranstoken;
-                  showResult = true;
-                });
-              }
-            }
-          },
-          child: Container(
-              height: 50.0,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(8.0),
+  Widget build(BuildContext context) {
+    return WrapperPage(
+        titleAppBar: 'Phuong thức thanh toán',
+        child: Consumer<CartProvider>(builder: (context, provider, child) {
+          return Column(
+            children: [
+              _item(
+                context,
+                icon: SvgPicture.asset(
+                  ImageFactory.momo,
+                  fit: BoxFit.cover,
+                ),
+                title: 'Thanh toán bằng ví Momo',
+                onTap: () {
+                  provider.selectPaymentMethod(PaymentMethod.momo);
+                  context.pop();
+                },
+                isSelected: provider.paymentMethod == PaymentMethod.momo,
               ),
-              child: const Text("Create Order",
-                  style: TextStyle(color: Colors.white, fontSize: 20.0))),
+              _item(
+                context,
+                icon: Image.asset(
+                  ImageFactory.zalopay,
+                  fit: BoxFit.cover,
+                ),
+                title: 'Thanh toán bằng ví Zalopay',
+                onTap: () {
+                  provider.selectPaymentMethod(PaymentMethod.zaloPay);
+                  context.pop();
+                },
+                isSelected: provider.paymentMethod == PaymentMethod.zaloPay,
+              ),
+            ],
+          );
+        }));
+  }
+
+  Widget _item(BuildContext context,
+          {required Widget icon,
+          required String title,
+          VoidCallback? onTap,
+          bool isSelected = false}) =>
+      Padding(
+        padding: const EdgeInsets.fromLTRB(Gap.m, Gap.m, Gap.m, 0.0),
+        child: GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.all(Gap.s),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Gap.s),
+              color: context.theme.cardColor,
+              boxShadow: [boxShadow],
+            ),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(Gap.s),
+                  child: SizedBox(width: Gap.xxl, height: Gap.xxl, child: icon),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Gap.s),
+                  child: Text(
+                    title,
+                    style: context.textTheme.titleSmall,
+                  ),
+                ),
+                const Spacer(),
+                Icon(
+                  isSelected ? Icons.check_circle : Icons.circle_outlined,
+                  color: context.theme.primaryColor,
+                )
+              ],
+            ),
+          ),
         ),
       );
-
-  /// Build Button Pay
-  Widget _btnPay(String zpToken) => Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-      child: Visibility(
-        visible: showResult,
-        child: GestureDetector(
-          onTap: () async {
-            String response = "";
-            try {
-              final String result =
-                  await platform.invokeMethod('payOrder', {"zptoken": zpToken});
-              response = result;
-              print("payOrder Result: '$result'.");
-            } on PlatformException catch (e) {
-              print("Failed to Invoke: '${e.message}'.");
-              response = "Thanh toán thất bại";
-            }
-            print(response);
-            setState(() {
-              payResult = response;
-            });
-          },
-          child: Container(
-              height: 50.0,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: const Text("Pay",
-                  style: TextStyle(color: Colors.white, fontSize: 20.0))),
-        ),
-      ));
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          _quickConfig,
-          TextFormField(
-            decoration: const InputDecoration(
-              hintText: 'Amount',
-              icon: Icon(Icons.attach_money),
-            ),
-            initialValue: payAmount,
-            onChanged: (value) {
-              setState(() {
-                payAmount = value;
-              });
-            },
-            keyboardType: TextInputType.number,
-          ),
-          _btnCreateOrder(payAmount),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
-            child: Visibility(
-              visible: showResult,
-              child: Text(
-                "zptranstoken:",
-                style: textStyle,
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
-            child: Text(
-              zpTransToken,
-              style: valueStyle,
-            ),
-          ),
-          _btnPay(zpTransToken),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
-            child: Visibility(
-                visible: showResult,
-                child: Text("Transaction status:", style: textStyle)),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
-            child: Text(
-              payResult,
-              style: valueStyle,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
-
-/// Build Info App
-Widget _quickConfig = Container(
-  margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-  child: Row(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: <Widget>[
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: const Text("AppID: 2554"),
-          ),
-        ],
-      ),
-      // _btnQuickEdit,
-    ],
-  ),
-);

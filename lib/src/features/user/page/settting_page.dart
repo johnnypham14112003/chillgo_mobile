@@ -70,7 +70,7 @@ class _SettingsPageDartWidgetState extends State<SettingsPageDartWidget>
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Colors.white,
+      backgroundColor: context.theme.cardColor,
       appBar: AppBar(
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
         automaticallyImplyLeading: false,
@@ -381,7 +381,7 @@ class _SettingsPageDartWidgetState extends State<SettingsPageDartWidget>
                                           width: 36,
                                           height: 36,
                                           decoration: BoxDecoration(
-                                            color: Colors.white,
+                                            color: context.theme.cardColor,
                                             boxShadow: [
                                               BoxShadow(
                                                 blurRadius: 4,
@@ -438,7 +438,7 @@ class _SettingsPageDartWidgetState extends State<SettingsPageDartWidget>
                   borderRadius: 12,
                   borderWidth: 1,
                   buttonSize: 48,
-                  fillColor: Colors.white,
+                  fillColor: context.theme.cardColor,
                   icon: FaIcon(
                     FontAwesomeIcons.youtube,
                     color: Color(0xFF606A85),
@@ -453,7 +453,7 @@ class _SettingsPageDartWidgetState extends State<SettingsPageDartWidget>
                   borderRadius: 12,
                   borderWidth: 1,
                   buttonSize: 48,
-                  fillColor: Colors.white,
+                  fillColor: context.theme.cardColor,
                   icon: FaIcon(
                     FontAwesomeIcons.instagram,
                     color: Color(0xFF606A85),
@@ -468,7 +468,7 @@ class _SettingsPageDartWidgetState extends State<SettingsPageDartWidget>
                   borderRadius: 12,
                   borderWidth: 1,
                   buttonSize: 48,
-                  fillColor: Colors.white,
+                  fillColor: context.theme.cardColor,
                   icon: FaIcon(
                     FontAwesomeIcons.facebookF,
                     color: Color(0xFF606A85),
@@ -483,7 +483,7 @@ class _SettingsPageDartWidgetState extends State<SettingsPageDartWidget>
                   borderRadius: 12,
                   borderWidth: 1,
                   buttonSize: 48,
-                  fillColor: Colors.white,
+                  fillColor: context.theme.cardColor,
                   icon: FaIcon(
                     FontAwesomeIcons.linkedinIn,
                     color: Color(0xFF606A85),

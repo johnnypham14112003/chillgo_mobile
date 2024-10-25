@@ -16,4 +16,25 @@ extension BuildContextExt on BuildContext {
       ScaffoldMessenger.of(this).showSnackBar(
         SnackBar(content: Text(message)),
       );
+  Future<void> showPopupNotifi(String title, String content) async {
+    showDialog(
+      context: this,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(content),
+      ),
+    );
+    await Future.delayed(const Duration(seconds: 3), () {
+      Navigator.pop(this);
+    });
+    return;
+  }
+
+  void pop() => Navigator.pop(this);
+
+  void push(Widget screen) =>
+      Navigator.push(this, MaterialPageRoute(builder: (context) => screen));
+
+  void navigate(Widget screen) => Navigator.pushAndRemoveUntil(
+      this, MaterialPageRoute(builder: (context) => screen), (route) => false);
 }

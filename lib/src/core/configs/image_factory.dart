@@ -10,4 +10,7 @@ class ImageFactory {
   static const google = "${assetPath}icons/google48px.png";
   static const wapple = "${assetPath}icons/wapple50px.png";
   static const dapple = "${assetPath}icons/dapple50px.png";
+
+  static const zalopay = "${assetPath}icons/zalopay.png";
+  static const momo = "${assetPath}icons/momo.svg";
 }

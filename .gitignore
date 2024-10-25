@@ -119,3 +119,5 @@ proguard/
 *.zip
 *.tar.gz
 *.rar
+
+api-keys.json
