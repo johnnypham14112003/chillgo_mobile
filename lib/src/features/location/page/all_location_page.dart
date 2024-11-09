@@ -1,3 +1,4 @@
+import 'package:chillgo_mobile/src/core/configs/image_factory.dart';
 import 'package:chillgo_mobile/src/core/themes/gap.dart';
 import 'package:chillgo_mobile/src/core/utils/extention.dart';
 import 'package:chillgo_mobile/src/features/location/location_provider.dart';
@@ -6,6 +7,8 @@ import 'package:chillgo_mobile/src/features/location/widgets/list_side.dart';
 import 'package:chillgo_mobile/src/features/widgets/wrapper_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'deatil_location_page.dart';
 
 class AllLocationPage extends StatefulWidget {
   final String title;
@@ -56,62 +59,90 @@ class _AllLocationPageState extends State<AllLocationPage> {
                             childAspectRatio: 0.8),
                     itemBuilder: (ctx, index) {
                       final item = provider.locations[index];
-                      return Container(
-                        padding: const EdgeInsets.all(Gap.s),
-                        decoration: BoxDecoration(
-                          color: context.theme.cardColor,
-                          borderRadius: BorderRadius.circular(Gap.m),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              spreadRadius: 0,
-                              blurRadius: 2,
-                              offset: const Offset(0, 1),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Expanded(
-                                child: ClipRRect(
-                              borderRadius: BorderRadius.circular(Gap.s),
-                              child: Image.network(
-                                item.images.first,
-                                fit: BoxFit.cover,
-                                width: double.infinity,
+                      return GestureDetector(
+                        onTap: () {
+                          context
+                              .read<LocationProvider>()
+                              .getLocationById(item.id);
+                          context.push(const LocationDetailPage());
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(Gap.s),
+                          decoration: BoxDecoration(
+                            color: context.theme.cardColor,
+                            borderRadius: BorderRadius.circular(Gap.m),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.2),
+                                spreadRadius: 0,
+                                blurRadius: 2,
+                                offset: const Offset(0, 1),
                               ),
-                            )),
-                            Expanded(
-                                child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: Gap.s),
-                                  child: Text(
-                                    '#${item.address}',
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                  child: Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.circular(Gap.s),
+                                      child: Image.network(
+                                        item.images.first,
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Image.asset(
+                                                    ImageFactory.defaultImg),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: Gap.xxs,
+                                    right: Gap.xxs,
+                                    child: Icon(
+                                      Icons.favorite,
+                                      color: context.theme.cardColor,
+                                    ),
+                                  ),
+                                ],
+                              )),
+                              Expanded(
+                                  child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: Gap.s),
+                                    child: Text(
+                                      '#${item.address}',
+                                      maxLines: 1,
+                                      style: context.textTheme.bodySmall
+                                          ?.copyWith(
+                                              color:
+                                                  context.theme.primaryColor),
+                                    ),
+                                  ),
+                                  Text(
+                                    item.name,
                                     maxLines: 1,
                                     style: context.textTheme.bodySmall
-                                        ?.copyWith(
-                                            color: context.theme.primaryColor),
+                                        ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
-                                ),
-                                Text(
-                                  item.name,
-                                  maxLines: 1,
-                                  style: context.textTheme.bodySmall
-                                      ?.copyWith(fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  item.description,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: context.textTheme.bodySmall
-                                      ?.copyWith(fontStyle: FontStyle.italic),
-                                )
-                              ],
-                            )),
-                          ],
+                                  Text(
+                                    item.description,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: context.textTheme.bodySmall
+                                        ?.copyWith(fontStyle: FontStyle.italic),
+                                  )
+                                ],
+                              )),
+                            ],
+                          ),
                         ),
                       );
                     }),

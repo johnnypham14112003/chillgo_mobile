@@ -1,14 +1,17 @@
 import 'package:chillgo_mobile/src/core/themes/gap.dart';
 import 'package:chillgo_mobile/src/core/utils/extention.dart';
-import 'package:flutter/widgets.dart';
+import 'package:chillgo_mobile/src/core/utils/format.dart';
+import 'package:chillgo_mobile/src/models/chat_ai_package.dart';
+import 'package:flutter/material.dart';
 
 class ItemPackage extends StatelessWidget {
-  const ItemPackage({super.key});
+  final ChatAiPackage package;
+  final VoidCallback? onPressed;
+  const ItemPackage({super.key, required this.package, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(Gap.m),
       padding: const EdgeInsets.all(Gap.m),
       width: double.infinity,
       decoration: BoxDecoration(
@@ -16,24 +19,30 @@ class ItemPackage extends StatelessWidget {
         borderRadius: BorderRadius.circular(Gap.m),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Gói tiêu chuẩn',
-              style: context.textTheme.titleMedium,
-            ),
-            Text(
-              '20.000 vnđ',
-              style: context.textTheme.titleMedium
-                  ?.copyWith(color: context.theme.primaryColor),
-            ),
-          ],
+        Text(
+          package.name,
+          style: context.textTheme.titleMedium,
         ),
         Text(
-          'Dành cho khách hàng muốn trải nghiệm tính năng đặc biệt của ứng dụng chúng tôi',
+          package.description,
           style: context.textTheme.bodySmall,
-        )
+        ),
+        const SizedBox(height: Gap.s),
+        if (onPressed != null)
+          Row(
+            children: [
+              Text(
+                '${Formatter.currency(package.price)}đ${package.duration != 0 ? ' / ${package.duration} tháng' : ' / 24h'} ',
+                style: context.textTheme.titleSmall
+                    ?.copyWith(color: context.theme.primaryColor),
+              ),
+              const Spacer(),
+              FilledButton(
+                onPressed: onPressed,
+                child: const Text('Mua ngay'),
+              ),
+            ],
+          )
       ]),
     );
   }

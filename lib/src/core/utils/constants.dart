@@ -3,7 +3,9 @@
 //Ngrok
 import 'package:flutter/material.dart';
 
-const String apiServerUrl = "https://enhanced-liked-sole.ngrok-free.app/api";
+const String apiServerUrl = "http://chillgo.travel:5000/api";
+const String urlHelpCenter = "http://chillgo.travel/faqs";
+const String urlHome = "http://chillgo.travel/home";
 //Real Server with domain
 //const String apiServerUrl = "https://chillgo.serveo.net/api";
 

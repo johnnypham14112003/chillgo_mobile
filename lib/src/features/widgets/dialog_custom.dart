@@ -1,4 +1,6 @@
+import 'package:chillgo_mobile/src/app.dart';
 import 'package:chillgo_mobile/src/core/themes/gap.dart';
+import 'package:chillgo_mobile/src/core/utils/extention.dart';
 import 'package:flutter/material.dart';
 
 class DialogCustom {
@@ -15,8 +17,9 @@ class DialogCustom {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => const Dialog(
-        child: Padding(
+      builder: (_) => Dialog(
+        backgroundColor: context.theme.cardColor,
+        child: const Padding(
           padding: EdgeInsets.all(Gap.s),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -44,5 +47,25 @@ class DialogCustom {
       }
     }
   }
-  
+
+  showDialogConfirm(String title, String content,
+      {VoidCallback? onConfirm,
+      bool barrierDismissible = true,
+      String textButton = 'Đã hiểu'}) {
+    showDialog(
+      context: navigaterKey.currentContext!,
+      barrierDismissible: barrierDismissible,
+      builder: (context) => AlertDialog(
+        backgroundColor: context.theme.cardColor,
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          FilledButton(
+            onPressed: onConfirm,
+            child: Text(textButton),
+          ),
+        ],
+      ),
+    );
+  }
 }

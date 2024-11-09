@@ -21,12 +21,12 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AccountProvider>(builder: (context, provider, child) {
-      final account = provider.account!;
-      return WrapperPage(
-        titleAppBar: 'Tài khoản',
-        isMainPage: true,
-        child: Column(
+   return WrapperPage(
+      titleAppBar: 'Tài khoản',
+      isMainPage: true,
+      child: Consumer<AccountProvider>(builder: (context, provider, child) {
+        final account = provider.account!;
+        return Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -103,8 +103,8 @@ class ProfilePage extends StatelessWidget {
             ),
             const ProfileMenu()
           ],
-        ),
-      );
-    });
+        );
+      }),
+    );
   }
 }

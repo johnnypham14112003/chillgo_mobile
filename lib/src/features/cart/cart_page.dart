@@ -28,7 +28,11 @@ class _CartPageState extends State<CartPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const ItemPackage(),
+              if (provider.chatAiPackage != null)
+                Padding(
+                  padding: const EdgeInsets.all(Gap.m),
+                  child: ItemPackage(package: provider.chatAiPackage!),
+                ),
               _wrapperBox(
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,7 +65,10 @@ class _CartPageState extends State<CartPage> {
                         )),
                   ),
                   const Spacer(),
-                  Switch(value: true, onChanged: (_) {})
+                  Switch(
+                    value: provider.isUseDiscount,
+                    onChanged: provider.applyDiscount,
+                  )
                 ]),
               ),
               const Divider(
@@ -103,9 +110,14 @@ class _CartPageState extends State<CartPage> {
                       'Chi tiết thanh toán',
                       style: context.textTheme.titleMedium,
                     ),
-                    _inforPayment('Tổng tiền hàng', '20.000đ'),
-                    _inforPayment('Giảm giá ưu đãi', '-9.000đ'),
-                    _inforPayment('Giảm giá Chillcoin', '0đ'),
+                    _inforPayment('Tổng tiền hàng',
+                        '${(provider.cart?.totalAmount ?? 0).round()}đ'),
+                    _inforPayment('Giảm giá ưu đãi', '0đ'),
+                    _inforPayment(
+                        'Giảm giá Chillcoin',
+                        !provider.isUseDiscount
+                            ? '0đ'
+                            : '-${provider.cart!.discount.round()}đ'),
                     const Divider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -115,13 +127,13 @@ class _CartPageState extends State<CartPage> {
                           style: context.textTheme.titleMedium,
                         ),
                         Text(
-                          '11.000đ',
+                          '${((provider.cart?.totalPay ?? 0)).round()}đ',
                           style: context.textTheme.bodyMedium?.copyWith(
                               color: context.theme.primaryColor,
                               fontWeight: FontWeight.w600),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               )
@@ -135,7 +147,7 @@ class _CartPageState extends State<CartPage> {
   Widget _btnPay() => Padding(
         padding: const EdgeInsets.all(Gap.m),
         child: FilledButton(
-          onPressed: () => context.read<CartProvider>().order(context, '11000'),
+          onPressed: () => context.read<CartProvider>().order(context),
           child: Text(
             "Tạo đơn thanh toán",
             style: TextStyle(color: context.theme.cardColor, fontSize: 20.0),

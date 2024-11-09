@@ -1,115 +1,87 @@
+import 'package:chillgo_mobile/src/models/chat_ai_package.dart';
+
 class Account {
   final String id;
-
   final String firebaseUid;
-
   final String email;
-
   final String fullName;
-
   final String? address;
-
   final String? phoneNumber;
-
   final String? cCCD;
-
   final DateTime? dateOfBirth;
-
   final String? gender;
-
   final DateTime? joinedDate;
-
   final DateTime? lastUpdated;
-
-  final int chillCoin;
-
+  final int? chillCoin;
   final String? fcmToken;
-
   final String? googleId;
-
   final String? facebookId;
-
   final String? expertise;
-
   final String? language;
-
-  final int rating;
-
+  final int? rating;
   final String? companyName;
-
-  final String role;
-
-  final String status;
-
+  final String? role;
+  final String? status;
   String? avatarUrl;
+  ChatAiPackage? package;
 
   //Constructor
-  Account(
-      {required this.id,
-      required this.firebaseUid,
-      required this.email,
-      required this.fullName,
-      this.address,
-      this.phoneNumber,
-      this.cCCD,
-      this.dateOfBirth,
-      this.gender,
-      this.joinedDate,
-      this.lastUpdated,
-      this.chillCoin = 0,
-      this.fcmToken,
-      this.googleId,
-      this.facebookId,
-      this.expertise,
-      this.language,
-      this.rating = 0,
-      this.companyName,
-      required this.role,
-      required this.status,
-      this.avatarUrl});
-
-  // Parse Json to Model
-  // factory Account.fromJson(Map<String, dynamic> json) {
-  //   return Account(
-  //     id: json['id'],
-  //     firebaseUid: json['firebaseUid'],
-  //     email: json['email'],
-  //     password: json['password'],
-  //     fullName: json['fullName'],
-  //     address: json['address'],
-  //     phoneNumber: json['phoneNumber'],
-  //     cCCD: json['cCCD'],
-  //     dateOfBirth: json['dateOfBirth'] != null
-  //         ? DateTime.parse(json['dateOfBirth'])
-  //         : null,
-  //     gender: json['gender'],
-  //     joinedDate: DateTime.parse(json['joinedDate']),
-  //     lastUpdated: DateTime.parse(json['lastUpdated']),
-  //     chillCoin: json['chillCoin'] ?? 0,
-  //     fcmToken: json['fcmToken'],
-  //     googleId: json['googleId'],
-  //     facebookId: json['facebookId'],
-  //     expertise: json['expertise'],
-  //     language: json['language'],
-  //     rating: (json['rating'] != null) ? json['rating'].toDouble() : null,
-  //     companyName: json['companyName'],
-  //     role: json['role'],
-  //     status: json['status'],
-  //   );
-  // }
+  Account({
+    required this.id,
+    required this.firebaseUid,
+    required this.email,
+    required this.fullName,
+    this.address,
+    this.phoneNumber,
+    this.cCCD,
+    this.dateOfBirth,
+    this.gender,
+    this.joinedDate,
+    this.lastUpdated,
+    this.chillCoin = 0,
+    this.fcmToken,
+    this.googleId,
+    this.facebookId,
+    this.expertise,
+    this.language,
+    this.rating = 0,
+    this.companyName,
+    required this.role,
+    required this.status,
+    this.avatarUrl,
+    this.package,
+  });
 
   factory Account.fromJson(Map<String, dynamic> json) {
     return Account(
-      id: json["id"],
-      firebaseUid: json["firebase-uid"],
-      email: json["email"],
-      fullName: json["full-name"],
-      phoneNumber: json["phone-number"],
-      cCCD: json["cccd"],
-      gender: json["gender"],
-      role: json["role"],
-      status: json["status"],
-      avatarUrl: json["avatar-url"].isEmpty ? null : json["avatar-url"],
+      id: json['id'],
+      firebaseUid: json['firebase-uid'],
+      email: json['email'],
+      fullName: json['full-name'],
+      address: json['address'],
+      phoneNumber: json['phone-number'],
+      cCCD: json['cccd'],
+      dateOfBirth: json['date-of-birth'] != null
+          ? DateTime.tryParse(json['date-of-birth'])
+          : null,
+      gender: json['gender'],
+      // joinedDate: json['joined-date'] != null
+      //     ? DateTime.tryParse(json['joined-date'])
+      //     : null,
+      // lastUpdated: json['last-updated'] != null
+      //     ? DateTime.tryParse(json['last-updated'])
+      //     : null,
+      chillCoin: json['chill-coin'],
+      fcmToken: json['fcm-token'],
+      googleId: json['google-id'],
+      facebookId: json['facebook-id'],
+      expertise: json['expertise'],
+      language: json['language'],
+      rating: json['rating'],
+      companyName: json['company-name'],
+      role: json['role'],
+      status: json['status'],
+      avatarUrl: json["avatar-url"],
     );
   }
 
@@ -122,19 +94,33 @@ class Account {
         'address': address,
         'phone-number': phoneNumber,
         'cccd': cCCD,
-        'dateOfBirth': dateOfBirth?.toIso8601String(),
+        'date-of-birth': dateOfBirth.toString(),
         'gender': gender,
-        'joinedDate': joinedDate?.toIso8601String(),
-        'lastUpdated': lastUpdated?.toIso8601String(),
-        'chillCoin': chillCoin,
-        'fcmToken': fcmToken,
-        'googleId': googleId,
-        'facebookId': facebookId,
+        // 'joined-date': joinedDate,
+        // 'last-updated': lastUpdated,
+        'chill-coin': chillCoin,
+        'fcm-token': fcmToken,
+        'google-id': googleId,
+        'facebook-id': facebookId,
         'expertise': expertise,
         'language': language,
         'rating': rating,
-        'companyName': companyName,
+        'company-name': companyName,
         'role': role,
         'status': status,
+        'avatar-url': avatarUrl
+      };
+
+  Map<String, dynamic> toJsonForUpdate() => {
+        "id": id,
+        "full-name": fullName,
+        "address": address,
+        "phone-number": phoneNumber,
+        "cccd": cCCD,
+        "date-of-birth": dateOfBirth.toString(),
+        "gender": gender,
+        "expertise": expertise,
+        "language": language,
+        "company-name": companyName,
       };
 }

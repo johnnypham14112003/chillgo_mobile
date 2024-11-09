@@ -13,6 +13,9 @@ class LocationProvider extends ChangeNotifier {
   List<Location> _randomLocations = [];
   List<Location> get randomLocations => _randomLocations;
 
+  Location? get detailLocation => _detailLocation;
+  Location? _detailLocation;
+
   //get location khi class đc khởi tạo
   LocationProvider() {
     init();
@@ -27,6 +30,15 @@ class LocationProvider extends ChangeNotifier {
   Future<void> getAllLocation() async {
     _locations = await _repository.getAllLocation();
     notifyListeners();
+
+    final futures = _locations.map((location) async {
+      final image = await _repository.getImage(location.id);
+      location.images = [image];
+      return location;
+    });
+    await Future.wait(futures);
+
+    notifyListeners();
   }
 
   Future<void> getTopLocation([bool isNotify = false]) async {
@@ -39,5 +51,13 @@ class LocationProvider extends ChangeNotifier {
 
   Future<void> getRandomLocation() async {
     _randomLocations = await _repository.getRandomLocation();
+  }
+
+  Future<void> getLocationById(String id) async {
+    _detailLocation = null;
+    notifyListeners();
+
+    _detailLocation = await _repository.getLocationById(id);
+    notifyListeners();
   }
 }

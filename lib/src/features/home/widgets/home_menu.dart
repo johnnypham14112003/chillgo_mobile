@@ -9,52 +9,47 @@ class HomeMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: SizedBox(
-        width: context.querySize.width,
-        height: 120,
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _buildMenuButton(
-              context,
-              icon: Icons.airplanemode_active,
-              label: 'Máy bay',
-              onPressed: () => print('Airplane button pressed'),
-            ),
-            _buildMenuButton(
-              context,
-              icon: Icons.backpack_rounded,
-              label: 'Chuyến đi',
-              onPressed: () => print('Trip button pressed'),
-            ),
-            _buildMenuButton(
-              context,
-              icon: Icons.location_city_rounded,
-              label: 'Khách sạn',
-              onPressed: () => print('Hotel button pressed'),
-            ),
-            _buildMenuButton(
-              context,
-              icon: Icons.train_rounded,
-              label: 'Tàu hỏa',
-              onPressed: () => print('Train button pressed'),
-            ),
-            _buildMenuButton(
-              context,
-              icon: Icons.directions_bus_rounded,
-              label: 'Xe buýt',
-              onPressed: () => print('Bus button pressed'),
-            ),
-            _buildMenuButton(
-              context,
-              icon: Icons.car_rental,
-              label: 'Thuê xe',
-              onPressed: () => print('Car rental button pressed'),
-            ),
-          ],
-        ),
+      padding: const EdgeInsets.symmetric(horizontal: Gap.xs, vertical: Gap.m),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          _buildMenuButton(
+            context,
+            icon: Icons.airplanemode_active,
+            label: 'Máy\nbay',
+            onPressed: () => print('Airplane button pressed'),
+          ),
+          _buildMenuButton(
+            context,
+            icon: Icons.backpack_outlined,
+            label: 'Chuyến\nđi',
+            onPressed: () => print('Trip button pressed'),
+          ),
+          _buildMenuButton(
+            context,
+            icon: Icons.location_city_outlined,
+            label: 'Khách\nsạn',
+            onPressed: () => print('Hotel button pressed'),
+          ),
+          _buildMenuButton(
+            context,
+            icon: Icons.train_outlined,
+            label: 'Tàu\nhỏa',
+            onPressed: () => print('Train button pressed'),
+          ),
+          _buildMenuButton(
+            context,
+            icon: Icons.directions_bus_outlined,
+            label: 'Xe\nbuýt',
+            onPressed: () => print('Bus button pressed'),
+          ),
+          _buildMenuButton(
+            context,
+            icon: Icons.car_rental,
+            label: 'Thuê\nxe',
+            onPressed: () => print('Car rental button pressed'),
+          ),
+        ],
       ),
     );
   }
@@ -67,7 +62,7 @@ class HomeMenu extends StatelessWidget {
   }) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(left: Gap.s),
+        padding: const EdgeInsets.symmetric(horizontal: Gap.xs),
         child: InkWell(
           splashColor: Colors.transparent,
           focusColor: Colors.transparent,
@@ -75,42 +70,37 @@ class HomeMenu extends StatelessWidget {
           highlightColor: Colors.transparent,
           onTap: onPressed,
           child: Container(
-            height: 110,
             decoration: BoxDecoration(
               color: context.theme.cardColor,
               borderRadius: BorderRadius.circular(100),
               boxShadow: [boxShadow],
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 5),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).secondaryHeaderColor,
-                        shape: BoxShape.circle,
-                      ),
-                      padding: const EdgeInsets.all(7.5),
-                      child: Icon(
-                        icon,
-                        color: Theme.of(context).primaryColor,
-                      ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                IconButton(
+                  icon: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).secondaryHeaderColor,
+                      shape: BoxShape.circle,
                     ),
-                    onPressed: onPressed,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(Gap.xs),
-                    child: Text(
-                      label,
-                      textAlign: TextAlign.center,
-                      style: context.textTheme.bodySmall,
+                    padding: const EdgeInsets.all(Gap.s),
+                    child: Icon(
+                      icon,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
-                ],
-              ),
+                  onPressed: onPressed,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(Gap.xs),
+                  child: Text(
+                    label,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 10),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

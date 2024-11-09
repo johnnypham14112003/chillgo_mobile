@@ -26,8 +26,10 @@ class PaymentMethodPage extends StatelessWidget {
                 ),
                 title: 'Thanh toán bằng ví Momo',
                 onTap: () {
-                  provider.selectPaymentMethod(PaymentMethod.momo);
-                  context.pop();
+                  // provider.selectPaymentMethod(PaymentMethod.momo);
+                  // context.pop();
+                  context.showSnackBar(
+                      'Phương thức thanh toán bằng Momo sẽ sớm ra mắt!');
                 },
                 isSelected: provider.paymentMethod == PaymentMethod.momo,
               ),
@@ -43,6 +45,19 @@ class PaymentMethodPage extends StatelessWidget {
                   context.pop();
                 },
                 isSelected: provider.paymentMethod == PaymentMethod.zaloPay,
+              ),
+              _item(
+                context,
+                icon: Image.asset(
+                  ImageFactory.scan,
+                  fit: BoxFit.cover,
+                ),
+                title: 'Quét mã QRCode ngân hàng',
+                onTap: () {
+                  provider.selectPaymentMethod(PaymentMethod.qrcode);
+                  context.pop();
+                },
+                isSelected: provider.paymentMethod == PaymentMethod.qrcode,
               ),
             ],
           );

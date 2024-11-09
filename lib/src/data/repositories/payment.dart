@@ -9,14 +9,16 @@ import 'package:sprintf/sprintf.dart';
 
 class ZaloPayConfig {
   static const String appId = "2554";
-  static const String key1 = String.fromEnvironment('ZALO_PAY_KEY1');
-  static const String key2 = String.fromEnvironment('ZALO_PAY_KEY2');
+  static const String key1 = String.fromEnvironment('ZALO_PAY_KEY1',
+      defaultValue: 'sdngKKJmqEMzvh5QQcdD2A9XBSKUNaYn');
+  static const String key2 = String.fromEnvironment('ZALO_PAY_KEY2',
+      defaultValue: 'trMrHtvjo6myautxDUiAcYsVtaeQ8nhf');
 
   static const String appUser = "zalopaydemo";
   static int transIdDefault = 1;
 }
 
-Future<CreateOrderResponse?> createOrder(int price) async {
+Future<CreateOrderResponse?> createOrder(double price) async {
   var header = <String, String>{};
   header["Content-Type"] = "application/x-www-form-urlencoded";
 

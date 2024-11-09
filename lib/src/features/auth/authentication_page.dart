@@ -163,7 +163,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     IconButton(
                       icon: (Theme.of(context).scaffoldBackgroundColor ==
                               const Color.fromRGBO(245, 245, 245, 1))
-                          ? Image.asset(ImageFactory.dapple)
+                          ? Image.asset(ImageFactory.apple)
                           : Image.asset(ImageFactory.wapple),
                       iconSize: 40,
                       onPressed: () {

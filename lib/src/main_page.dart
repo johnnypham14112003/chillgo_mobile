@@ -1,9 +1,11 @@
+import 'package:chillgo_mobile/src/core/themes/colors_theme.dart';
 import 'package:chillgo_mobile/src/core/utils/extention.dart';
 import 'package:chillgo_mobile/src/features/blog/blog_page.dart';
-import 'package:chillgo_mobile/src/features/chat_bot/chat_bot_page.dart';
+import 'package:chillgo_mobile/src/features/chat_bot/chat_ai_page.dart';
 import 'package:chillgo_mobile/src/features/preferential/preferential_page.dart';
 import 'package:chillgo_mobile/src/features/user/page/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'core/themes/gap.dart';
 import 'features/home/home_page.dart';
@@ -23,7 +25,6 @@ class _MainPageState extends State<MainPage> {
     _children = [
       const HomePage(),
       const BlogPage(),
-      const ChatBotPage(),
       const PreferentialPage(),
       const ProfilePage(),
     ];
@@ -32,6 +33,8 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDart = context.read<ThemeColorData>().isDark;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       extendBody: true,
@@ -47,7 +50,9 @@ class _MainPageState extends State<MainPage> {
               borderRadius: BorderRadius.circular(Gap.xxl),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
+                  color: isDart
+                      ? context.theme.cardColor.withOpacity(0.5)
+                      : Colors.grey.withOpacity(0.5),
                   spreadRadius: 0,
                   blurRadius: 4,
                   offset: const Offset(2, 2),
@@ -57,15 +62,14 @@ class _MainPageState extends State<MainPage> {
             borderRadius: BorderRadius.circular(Gap.xxl),
             child: BottomNavigationBar(
               backgroundColor: context.theme.cardColor,
-              currentIndex: _currentIndex,
+              currentIndex:
+                  _currentIndex >= 2 ? _currentIndex + 1 : _currentIndex,
               selectedItemColor: context.theme.primaryColor,
-              unselectedItemColor: Colors.black87,
+              unselectedItemColor: isDart ? Colors.grey : Colors.black87,
               type: BottomNavigationBarType.fixed,
               selectedFontSize: 10,
               unselectedFontSize: 10,
-              onTap: (value) => setState(() {
-                _currentIndex = value;
-              }),
+              onTap: _handleOnTap,
               items: EnumDestinations.values.map((item) {
                 return BottomNavigationBarItem(
                     icon: Icon(item.icon), label: item.label);
@@ -75,6 +79,16 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
     );
+  }
+
+  _handleOnTap(int value) {
+    if (value == 2) {
+      context.push(ChatAiPage());
+      return;
+    }
+    setState(() {
+      _currentIndex = value > 2 ? value - 1 : value;
+    });
   }
 }
 

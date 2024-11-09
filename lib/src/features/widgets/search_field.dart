@@ -16,6 +16,7 @@ class SearchField extends StatelessWidget {
       obscureText: false,
       controller: controller,
       decoration: InputDecoration(
+        fillColor: context.theme.cardColor,
         filled: true,
         hintText: 'Tìm kiếm ...',
         hintStyle: context.textTheme.bodyMedium,

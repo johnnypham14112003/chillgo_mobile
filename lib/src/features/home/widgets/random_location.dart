@@ -1,7 +1,9 @@
+import 'package:chillgo_mobile/src/core/configs/image_factory.dart';
 import 'package:chillgo_mobile/src/core/themes/gap.dart';
 import 'package:chillgo_mobile/src/core/utils/extention.dart';
 import 'package:chillgo_mobile/src/features/location/location_provider.dart';
 import 'package:chillgo_mobile/src/features/location/page/all_location_page.dart';
+import 'package:chillgo_mobile/src/features/location/page/deatil_location_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,12 +41,7 @@ class RandomLocation extends StatelessWidget {
                           ),
                         );
                       },
-                      style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          backgroundColor: const Color(0x00FFFFFF),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
-                          )),
+                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
                       child: Text(
                         'Xem thêm',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -66,7 +63,12 @@ class RandomLocation extends StatelessWidget {
                         (item) => Padding(
                           padding: const EdgeInsets.only(left: Gap.s),
                           child: GestureDetector(
-                            onTap: () async {},
+                            onTap: () {
+                              context
+                                  .read<LocationProvider>()
+                                  .getLocationById(item.id);
+                              context.push(const LocationDetailPage());
+                            },
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(Gap.s),
                               child: SizedBox(
@@ -78,6 +80,12 @@ class RandomLocation extends StatelessWidget {
                                       child: Image.network(
                                         item.images.first,
                                         fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Image.asset(
+                                          ImageFactory.defaultImg,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                     Container(
@@ -102,8 +110,9 @@ class RandomLocation extends StatelessWidget {
                                         item.address ?? item.name,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: context.textTheme.titleSmall
+                                        style: context.textTheme.bodySmall
                                             ?.copyWith(
+                                                fontWeight: FontWeight.w600,
                                                 color: Theme.of(context)
                                                     .cardColor),
                                       ),

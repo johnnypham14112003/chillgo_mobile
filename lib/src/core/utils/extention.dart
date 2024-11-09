@@ -16,9 +16,10 @@ extension BuildContextExt on BuildContext {
       ScaffoldMessenger.of(this).showSnackBar(
         SnackBar(content: Text(message)),
       );
-  Future<void> showPopupNotifi(String title, String content) async {
+  Future<void> showPopupNotifi(String title, String content,{bool barrierDismissible=true}) async {
     showDialog(
       context: this,
+      barrierDismissible: barrierDismissible,
       builder: (context) => AlertDialog(
         title: Text(title),
         content: Text(content),
@@ -30,9 +31,9 @@ extension BuildContextExt on BuildContext {
     return;
   }
 
-  void pop() => Navigator.pop(this);
+  void pop([dynamic result]) => Navigator.pop(this,result);
 
-  void push(Widget screen) =>
+  Future push(Widget screen) =>
       Navigator.push(this, MaterialPageRoute(builder: (context) => screen));
 
   void navigate(Widget screen) => Navigator.pushAndRemoveUntil(

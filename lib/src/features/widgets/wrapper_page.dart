@@ -12,6 +12,7 @@ class WrapperPage extends StatelessWidget {
   final bool isSearchBar;
   final bool isMainPage;
   final Widget? action;
+  final Widget? floatingActionButton;
   const WrapperPage({
     super.key,
     required this.titleAppBar,
@@ -20,6 +21,7 @@ class WrapperPage extends StatelessWidget {
     this.isSearchBar = false,
     this.isMainPage = false,
     this.action,
+    this.floatingActionButton,
   });
 
   @override
@@ -63,13 +65,14 @@ class WrapperPage extends StatelessWidget {
                           ?.copyWith(color: context.theme.cardColor),
                     ),
                   ),
-                  trailing:action?? IconButton(
-                    icon: Icon(
-                      Icons.notifications_rounded,
-                      color: context.theme.cardColor,
-                    ),
-                    onPressed: () {},
-                  ),
+                  trailing: action ??
+                      IconButton(
+                        icon: Icon(
+                          Icons.notifications_rounded,
+                          color: context.theme.cardColor,
+                        ),
+                        onPressed: () {},
+                      ),
                 ),
               ),
               if (isSearchBar)
@@ -84,6 +87,7 @@ class WrapperPage extends StatelessWidget {
           child,
         ],
       ),
+      floatingActionButton: floatingActionButton,
       bottomNavigationBar: bottomNavigationBar,
     );
   }

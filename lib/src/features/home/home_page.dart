@@ -1,3 +1,4 @@
+import 'package:chillgo_mobile/src/core/configs/image_factory.dart';
 import 'package:chillgo_mobile/src/core/themes/gap.dart';
 
 import 'package:chillgo_mobile/src/features/home/widgets/home_menu.dart';
@@ -57,31 +58,15 @@ class _HomePageDartWidgetState extends State<HomePage> {
                       scrollDirection: Axis.horizontal,
                     ),
                     items: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          'https://picsum.photos/seed/64/600',
-                          width: 200,
-                          height: 200,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          'https://picsum.photos/seed/839/600',
-                          width: 200,
-                          height: 200,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          'https://picsum.photos/seed/670/600',
-                          width: 200,
-                          height: 200,
-                          fit: BoxFit.cover,
+                      ...ImageFactory.banner.map(
+                        (item) => ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.asset(
+                            item,
+                            width: 200,
+                            height: 200,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ],

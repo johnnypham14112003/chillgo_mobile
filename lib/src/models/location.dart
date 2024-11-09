@@ -32,7 +32,7 @@ class Location {
   final String? status;
   final List<dynamic> bookingDetails;
   final List<dynamic> comments;
-  final List<String> images;
+  List<String> images;
   final dynamic partner;
   final List<dynamic> schedules;
   final List<dynamic> accounts;
@@ -57,7 +57,7 @@ class Location {
           ? []
           : List<String>.from(json["comments"]!.map((x) => x)),
       images: json["images"] == null || json["images"]!.isEmpty
-          ? ['https://picsum.photos/seed/162/600']
+          ? ['']
           : List<String>.from(json["images"]!.map((x) => x)),
       partner: json["partner"],
       schedules: json["schedules"] == null

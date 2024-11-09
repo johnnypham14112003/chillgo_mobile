@@ -1,21 +1,30 @@
-import 'package:chillgo_mobile/src/data/repositories/location_repository.dart';
-import 'package:chillgo_mobile/src/models/location.dart';
+import 'package:chillgo_mobile/src/models/blog.dart';
 import 'package:flutter/material.dart';
 
 class BlogProvider extends ChangeNotifier {
-  Location? get firstLocation => _firstLocation;
-  Location? _firstLocation;
+  Blog? get firstBlog => _firstBlog;
+  Blog? _firstBlog;
 
-  List<Location> get otherLocations => _otherLocations;
-  List<Location> _otherLocations = [];
+  List<Blog> get otherBlogs => _otherBlogs;
+  List<Blog> _otherBlogs = [];
+
+  Blog? get blogDetail => _blogDetail;
+  Blog? _blogDetail;
 
   BlogProvider() {
     init();
   }
   init() async {
-    final locations = await LocationRepository().getAllLocation();
-    _firstLocation = locations.first;
-    _otherLocations = locations.sublist(1, locations.length);
+    //tạm, sẽ thay khi có api
+    final blogs = blogsExmple.map((blog) => Blog.fromMap(blog)).toList();
+    _firstBlog = blogs.first;
+    _otherBlogs = blogs.sublist(1, blogs.length);
+    notifyListeners();
+  }
+
+  void getBlogById(String id) {
+    //tạm, sẽ thay khi có api
+    _blogDetail = _otherBlogs.firstWhere((blog) => blog.title == id);
     notifyListeners();
   }
 }

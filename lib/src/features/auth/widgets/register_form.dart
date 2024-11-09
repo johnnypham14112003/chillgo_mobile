@@ -1,4 +1,5 @@
 import 'package:chillgo_mobile/src/core/configs/image_factory.dart';
+import 'package:chillgo_mobile/src/core/themes/gap.dart';
 import 'package:chillgo_mobile/src/core/utils/extention.dart';
 import 'package:chillgo_mobile/src/core/utils/validator.dart';
 import 'package:flutter/material.dart';
@@ -117,16 +118,14 @@ class RegisterForm extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 40),
+          padding: const EdgeInsetsDirectional.symmetric(
+              vertical: Gap.l, horizontal: Gap.m),
           child: ElevatedButton(
             onPressed: isLoading ? null : onRegister,
             style: ElevatedButton.styleFrom(
-              minimumSize: Size(context.querySize.width * 0.6, 40),
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+              minimumSize: const Size(double.infinity, 45),
+              padding: EdgeInsets.zero,
               backgroundColor: Theme.of(context).primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8), // Bo góc của button
-              ),
             ),
             child: isLoading
                 ? const CircularProgressIndicator()
@@ -142,16 +141,14 @@ class RegisterForm extends StatelessWidget {
           style: context.textTheme.bodyMedium,
         ),
         Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 40),
+          padding: const EdgeInsetsDirectional.symmetric(
+              vertical: Gap.l, horizontal: Gap.m),
           child: ElevatedButton(
             onPressed: onNavigateToLogin,
             style: ElevatedButton.styleFrom(
-              minimumSize: Size(context.querySize.width * 0.6, 40),
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+              minimumSize: const Size(double.infinity, 45),
+              padding: EdgeInsets.zero,
               backgroundColor: Theme.of(context).cardColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8), // Bo góc của button
-              ),
             ),
             child: Text("Quay Lại Đăng Nhập",
                 style: Theme.of(context)

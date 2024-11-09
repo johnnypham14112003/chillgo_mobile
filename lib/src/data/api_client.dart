@@ -1,6 +1,10 @@
 import 'dart:convert';
 
+import 'package:chillgo_mobile/src/app.dart';
 import 'package:chillgo_mobile/src/core/utils/constants.dart';
+import 'package:chillgo_mobile/src/core/utils/extention.dart';
+import 'package:chillgo_mobile/src/features/auth/authentication_page.dart';
+import 'package:chillgo_mobile/src/features/widgets/dialog_custom.dart';
 import 'package:http/http.dart' as http;
 
 final ApiClient apiClient = ApiClient();
@@ -60,9 +64,21 @@ class ApiClient {
       body: jsonEncode(body),
     );
 
+    if (res.statusCode == 401) {
+      if (navigaterKey.currentContext != null) {
+        DialogCustom().showDialogConfirm(
+            'Phiên đăng nhập hết hạn', 'Vui lòng đăng nhập lại để tiếp tục',
+            barrierDismissible: false, onConfirm: () {
+          navigaterKey.currentContext!.navigate(
+            const AuthenticationPage(),
+          );
+        });
+      }
+    }
+
     // status code >= 400: error
     if (res.statusCode >= 400) {
-      throw FormatException(jsonDecode(res.body)['message']);
+      throw FormatException(jsonDecode(res.body));
     }
 
     return jsonDecode(res.body);
@@ -76,6 +92,27 @@ class ApiClient {
   }) async {
     final url = Uri.parse('$baseUrl/$path');
     final res = await http.put(
+      url,
+      headers: {...defaultHeaders, ...?headers},
+      body: jsonEncode(body),
+    );
+
+    // status code >= 400: error
+    if (res.statusCode >= 400) {
+      throw Exception(jsonDecode(res.body));
+    }
+
+    return jsonDecode(res.body);
+  }
+
+  Future<dynamic> patch(
+    String path, {
+    Map<String, String>? headers,
+    Map<String, String>? params,
+    Map<String, dynamic>? body,
+  }) async {
+    final url = Uri.parse('$baseUrl/$path');
+    final res = await http.patch(
       url,
       headers: {...defaultHeaders, ...?headers},
       body: jsonEncode(body),

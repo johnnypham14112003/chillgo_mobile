@@ -20,9 +20,6 @@ void main() async {
   //Create SharedPreferences và ThemeColorData
   final sharedPreferences = await SharedPreferences.getInstance();
   final themeData = ThemeColorData(sharedPreferences);
-  final accountProvider = AccountProvider();
-  await accountProvider.initialize();
-
   runApp(
     MultiProvider(
       providers: [
@@ -31,7 +28,7 @@ void main() async {
           create: (BuildContext context) => themeData,
         ),
         ChangeNotifierProvider<AccountProvider>(
-          create: (BuildContext context) => accountProvider,
+          create: (BuildContext context) => AccountProvider(),
         ),
         ChangeNotifierProvider(
           create: (BuildContext context) => AuthProvider(),
@@ -46,6 +43,7 @@ void main() async {
         ChangeNotifierProvider(
           create: (BuildContext context) => BlogProvider(),
         ),
+       
       ],
       child: const MyApp(),
     ),

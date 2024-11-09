@@ -1,5 +1,7 @@
 // Pub Packages
+import 'package:chillgo_mobile/src/core/themes/gap.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //Declare Global Vars - Color Theme
@@ -43,40 +45,49 @@ var light = ThemeData(
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all<Color>(
-            const Color.fromRGBO(10, 10, 10, 0.75)),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color.fromRGBO(10, 10, 10, 0.75),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(Gap.m)),
       ),
     ),
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        backgroundColor: const Color.fromRGBO(205, 238, 0, 1),
+        textStyle:
+            const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(Gap.m)),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+      textStyle: const TextStyle(fontWeight: FontWeight.bold),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Gap.m)),
+    )),
     fontFamily: 'Montserrat',
     textTheme: const TextTheme(
       titleLarge: TextStyle(
-        letterSpacing: 1,
         fontWeight: FontWeight.bold,
         color: Color.fromRGBO(32, 38, 45, 1),
       ),
       titleMedium: TextStyle(
-        letterSpacing: 1,
         fontWeight: FontWeight.bold,
         color: Color.fromRGBO(32, 38, 45, 1),
       ),
       titleSmall: TextStyle(
-        letterSpacing: 1,
         fontWeight: FontWeight.bold,
         color: Color.fromRGBO(32, 38, 45, 1),
       ),
       bodyLarge: TextStyle(
-        letterSpacing: 1,
         fontWeight: FontWeight.bold,
         color: Color.fromRGBO(32, 38, 45, 1),
       ),
       bodyMedium: TextStyle(
-        letterSpacing: 1,
         fontWeight: FontWeight.normal,
         color: Color.fromRGBO(32, 38, 45, 1),
       ),
       bodySmall: TextStyle(
-        letterSpacing: 1,
         fontWeight: FontWeight.normal,
         color: Color.fromRGBO(32, 38, 45, 1),
       ),
@@ -91,41 +102,79 @@ var dark = ThemeData(
     scaffoldBackgroundColor: const Color.fromRGBO(10, 10, 10, 1),
     cardColor: const Color.fromRGBO(32, 38, 45, 1),
     indicatorColor: const Color.fromRGBO(223, 217, 210, 1),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all<Color>(
-            const Color.fromRGBO(223, 217, 210, 0.75)),
+    inputDecorationTheme: InputDecorationTheme(
+      enabledBorder: UnderlineInputBorder(
+        borderSide: const BorderSide(
+          color: Color.fromRGBO(32, 38, 45, 1),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(0),
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: const BorderSide(
+          color: Color.fromRGBO(205, 238, 0, 1),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(0),
+      ),
+      errorBorder: UnderlineInputBorder(
+        borderSide: const BorderSide(
+          color: Color(0xFFFF0000),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(0),
+      ),
+      focusedErrorBorder: UnderlineInputBorder(
+        borderSide: const BorderSide(
+          color: Color(0xFFFF0000),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(0),
       ),
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color.fromRGBO(223, 217, 210, 0.75),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(Gap.m)),
+      ),
+    ),
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        backgroundColor: const Color.fromRGBO(205, 238, 0, 1),
+        textStyle: const TextStyle(fontWeight: FontWeight.bold),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(Gap.m)),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+      textStyle: const TextStyle(fontWeight: FontWeight.bold),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Gap.m)),
+    )),
     fontFamily: 'Montserrat',
     textTheme: const TextTheme(
       titleLarge: TextStyle(
-        fontSize: 30,
-        letterSpacing: 1,
         fontWeight: FontWeight.bold,
         color: Color.fromRGBO(223, 217, 210, 1),
       ),
       titleMedium: TextStyle(
-        fontSize: 30,
-        letterSpacing: 1,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.bold,
+        color: Color.fromRGBO(223, 217, 210, 1),
+      ),
+      titleSmall: TextStyle(
+        fontWeight: FontWeight.bold,
         color: Color.fromRGBO(223, 217, 210, 1),
       ),
       bodyLarge: TextStyle(
-        fontSize: 22,
-        letterSpacing: 1,
         fontWeight: FontWeight.bold,
         color: Color.fromRGBO(223, 217, 210, 1),
       ),
       bodyMedium: TextStyle(
-        fontSize: 20,
-        letterSpacing: 1,
         fontWeight: FontWeight.normal,
         color: Color.fromRGBO(223, 217, 210, 1),
       ),
       bodySmall: TextStyle(
-        fontSize: 14,
-        letterSpacing: 1,
         fontWeight: FontWeight.normal,
         color: Color.fromRGBO(223, 217, 210, 1),
       ),
@@ -139,7 +188,9 @@ class ThemeColorData with ChangeNotifier {
   bool _isDark;
 
   //Set default
-  ThemeColorData(this._sharedPreferences) : _isDark = true;
+  ThemeColorData(this._sharedPreferences) : _isDark = true {
+    loadThemeFromSharedPref();
+  }
 
   //Getter return var type
   bool get isDark => _isDark;
@@ -160,14 +211,16 @@ class ThemeColorData with ChangeNotifier {
   }
 
   //Get current from memory
-  Future<void> loadThemeFromSharedPref(BuildContext context) async {
+  Future<void> loadThemeFromSharedPref() async {
     await createSharedPrefObject();
 
     // Get themeData from local storage
     bool? storedTheme = _sharedPreferences.getBool('themeData');
 
     if (storedTheme == null) {
-      _isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+      _isDark =
+          SchedulerBinding.instance.platformDispatcher.platformBrightness ==
+              Brightness.dark;
     } else {
       _isDark = storedTheme;
     }

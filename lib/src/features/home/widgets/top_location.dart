@@ -1,8 +1,10 @@
+import 'package:chillgo_mobile/src/core/configs/image_factory.dart';
 import 'package:chillgo_mobile/src/core/themes/gap.dart';
 import 'package:chillgo_mobile/src/core/utils/constants.dart';
 import 'package:chillgo_mobile/src/core/utils/extention.dart';
 import 'package:chillgo_mobile/src/features/location/location_provider.dart';
 import 'package:chillgo_mobile/src/features/location/page/all_location_page.dart';
+import 'package:chillgo_mobile/src/features/location/page/deatil_location_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +16,7 @@ class TopLocation extends StatelessWidget {
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(0, Gap.s, 0, Gap.s),
       child: SizedBox(
-        height: context.querySize.width * 0.5,
+        height: context.querySize.width * 0.53,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -37,19 +39,12 @@ class TopLocation extends StatelessWidget {
                         ),
                       );
                     },
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      backgroundColor: const Color(0x00FFFFFF),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
-                      ),
-                    ),
+                    style: TextButton.styleFrom(padding: EdgeInsets.zero),
                     child: Text('Xem thêm',
                         style: context.textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).primaryColorLight,
+                            color: context.theme.primaryColorLight,
                             decoration: TextDecoration.underline,
-                            decorationColor:
-                                Theme.of(context).primaryColorLight)),
+                            decorationColor: context.theme.primaryColorLight)),
                   )
                 ],
               ),
@@ -65,7 +60,12 @@ class TopLocation extends StatelessWidget {
                             padding: const EdgeInsets.only(
                                 left: Gap.s, bottom: Gap.s),
                             child: GestureDetector(
-                              onTap: () async {},
+                              onTap: () {
+                                context
+                                    .read<LocationProvider>()
+                                    .getLocationById(item.id);
+                                context.push(const LocationDetailPage());
+                              },
                               child: Container(
                                 width: context.querySize.width * 0.4,
                                 padding: const EdgeInsets.all(Gap.xs),
@@ -91,9 +91,12 @@ class TopLocation extends StatelessWidget {
                                                       .theme.primaryColor),
                                               image: DecorationImage(
                                                 fit: BoxFit.cover,
-                                                image: NetworkImage(
-                                                  item.images.first,
-                                                ),
+                                                image: item.images.first.isEmpty
+                                                    ? const AssetImage(
+                                                        ImageFactory.defaultImg)
+                                                    : NetworkImage(
+                                                        item.images.first,
+                                                      ),
                                               )),
                                           child: Stack(
                                             children: [
@@ -137,12 +140,23 @@ class TopLocation extends StatelessWidget {
                                                       Text(
                                                         item.totalRating
                                                             .toString(),
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodySmall,
+                                                        style: context
+                                                            .textTheme.bodySmall
+                                                            ?.copyWith(
+                                                          color: context
+                                                              .theme.cardColor,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                right: 0,
+                                                child: Icon(
+                                                  Icons.favorite,
+                                                  color:
+                                                      context.theme.cardColor,
                                                 ),
                                               ),
                                             ],
@@ -163,6 +177,7 @@ class TopLocation extends StatelessWidget {
                                       children: [
                                         Expanded(
                                           child: Text(
+                                            maxLines: 1,
                                             'từ ${item.ticketPrice!.round()}đ',
                                             style: context.textTheme.bodySmall
                                                 ?.copyWith(
